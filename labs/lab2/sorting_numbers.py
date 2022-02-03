@@ -18,7 +18,7 @@ def main():
             output_middle_number = input_second_number
             output_smallest_number = input_third_number
 
-        # Since the third number is larger than the second, we have to test against the first number
+        # Test to see if the third is the largest number 
         elif input_third_number >= input_first_number:
             output_largest_number = input_third_number
             output_middle_number = input_first_number
@@ -33,15 +33,18 @@ def main():
     else: 
         output_largest_number = input_second_number
 
+        # Logic if the first number is larger than the third. 
         if input_first_number >= input_third_number:
             output_middle_number = input_first_number
             output_smallest_number = input_third_number
 
+        # Test to see if the third is the largest number 
         elif input_third_number >=  input_second_number:
             output_largest_number = input_third_number
             output_middle_number = input_second_number
             output_smallest_number = input_first_number
         
+        # Default logic if the third number is the middle largest. 
         else: 
             output_middle_number = input_third_number 
             output_smallest_number = input_first_number
