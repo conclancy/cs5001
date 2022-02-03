@@ -1,14 +1,21 @@
-def main():
-    '''
-    Takes in a number and determines if it is even or odd. 
-    '''
-    
-    number = int(input("Enter an integer to determine if it is even or odd:"))
+''' CS5001.38359.202230 - SEC 05 - John Wilder
+    Lab 2 - Problem 1
+    clancy.co@northeastern.edu (002781018)
+    03 FEB 22 
+'''
 
-    if number % 2 == 0:
-        print(number, "is even")
+
+def main(input_number):
+    '''
+    Takes in a number and determines if it is even or odd.
+    '''
+
+    if input_number % 2 == 0:
+        print(input_number, "is even")
     else:
-        print(number, "is odd")
+        print(input_number, "is odd")
 
 
-main()
+if __name__ == "__main__":
+    input_number = int(input("Input number: "))
+    main(input_number)

@@ -1,4 +1,11 @@
-def main(): 
+''' CS5001.38359.202230 - SEC 05 - John Wilder
+    Lab 2 - Problem 4
+    clancy.co@northeastern.edu (002781018)
+    03 FEB 22 
+'''
+
+
+def main(analyst_rating): 
     '''
     Returns a stock advisory for an analyst rating  
         > 100 == "Buy a lot"
@@ -8,15 +15,12 @@ def main():
         < 26  == "Sell! Sell! Sell!"
     '''
 
-     # Create variables 
-    analyst_rating = float(input("Input rating:"))
-
     # Logic to determine advice
     if analyst_rating > 100: 
         print("Buy a lot")
     elif analyst_rating > 76:
         print("Buy a little")
-    elif analyst_rating > 50:
+    elif analyst_rating > 49:
         print("Stay")
     elif analyst_rating > 25: 
         print("Sell")
@@ -24,4 +28,6 @@ def main():
         print("Sell! Sell! Sell!")
 
 
-main()
+if __name__ == "__main__":
+    analyst_rating = float(input("Input rating: "))
+    main(analyst_rating)
