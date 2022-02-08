@@ -76,3 +76,4 @@ def main(number):
 if __name__ == "__main__":
     number = int(input("Input first number: "))
     main(number)
+    
