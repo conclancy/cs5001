@@ -4,6 +4,7 @@
     10 FEB 22 
 '''
 
+
 def translate(english_day):
     '''
     tranlate translate an English day to the French equivalent 
@@ -39,11 +40,22 @@ def main():
     translate_correct = 0
     translate_wrong = 0
 
-    days = [['Monday', 'lundi'], ['tuesday','mardi'], ['WEDNESDAY', 'mercredi'], 
-            ['ThuRsday', 'jeudi'], ['Friday', 'vendredi'], ['Saturday', 'samedi'], 
-            ['Sunday', 'dimanche'], ['Mondays', 'lundi'], ['Tuesdae', 'mardi'], 
-            ['Wedsday', 'mercredi'], ['jeudi', 'jeudi'], ['vernes', 'vendredi'], 
-            ['Samstag', 'Saturday'], ['Sonday', 'dimanche']]
+    days = [  # Correct Tests 
+            ['Monday', 'lundi'], 
+            ['tuesday', 'mardi'], 
+            ['WEDNESDAY', 'mercredi'], 
+            ['ThuRsday', 'jeudi'], 
+            ['Friday', 'vendredi'], 
+            ['Saturday', 'samedi'], 
+            ['Sunday', 'dimanche'], 
+            # Incorrect Tests
+            ['Mondays', 'lundi'], 
+            ['Tuesdae', 'mardi'], 
+            ['Wedsday', 'mercredi'], 
+            ['jeudi', 'jeudi'], 
+            ['vernes', 'vendredi'], 
+            ['Samstag', 'Saturday'], 
+            ['Sonday', 'dimanche']]
 
     # invoke translate 
     for d in days:
@@ -51,7 +63,7 @@ def main():
             translate_correct += 1
         else: 
             translate_wrong += 1
-    
+
     # return results
     if translate_correct == translate_wrong:
         print("Test pass; translations working as expected")
