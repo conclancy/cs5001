@@ -7,6 +7,7 @@
     based on a width and height int input from the user
 '''
 
+
 def character_selector(square, row_number): 
     '''
     function to determines which character to return
@@ -63,20 +64,14 @@ def chessboard(width, height):
     board = ""
 
     # generates all rows except final row
-    while height_loop < height:
+    while height_loop <= height:
         row = row_generator(width, height_loop)
         height_loop += 1
         row += '\n'
         board += row
-    
-    # generates final row
-    while height_loop == height:
-        row = row_generator(width, height_loop)
-        height_loop += 1
-        board += row
-    
+
     return(board)
-    
+
 
 def main():
 
@@ -90,15 +85,15 @@ def main():
     t[5] = expected number of rows
     t[6] = expected test outcome
     '''
-    test_cases =[
-                [8, 4, "B", "B", 32, 4, True],      
-                [8, 5, "B", "W", 40, 5, True],
-                [3, 3, "B", "B", 9, 3, True], 
-                [15, 8, "B", "W", 120, 8, True], 
-                [8, 4, "W", "B", 32, 4, False],
-                [8, 4, "B", "W", 32, 4, False],
-                [3, 3, "B", "B", 10, 3, False], 
-                [3, 3, "B", "B", 9, 5, False]]
+    test_cases = [
+                  [8, 4, "B", "B", 32, 4, True],      
+                  [8, 5, "B", "W", 40, 5, True],
+                  [3, 3, "B", "B", 9, 3, True], 
+                  [15, 8, "B", "W", 120, 8, True], 
+                  [8, 4, "W", "B", 32, 4, False],
+                  [8, 4, "B", "W", 32, 4, False],
+                  [3, 3, "B", "B", 10, 3, False], 
+                  [3, 3, "B", "B", 9, 5, False]]
 
     # variables
     expected_true = 0 
@@ -110,8 +105,8 @@ def main():
     for t in test_cases:
 
         # increment counts
-        if t[6] == True: 
-            expected_true +=1
+        if t[6] is True: 
+            expected_true += 1
         else: 
             expected_false += 1
 
@@ -119,11 +114,11 @@ def main():
         board = chessboard(t[0], t[1])
         results = []
 
-        # test first character 
+        # test first square 
         results.append(board[0] == t[2])
 
-        # test last character 
-        results.append(board[-1] == t[3])
+        # test last square 
+        results.append(board[-2] == t[3])
 
         # test square count
         black_squares = board.count('B')
@@ -131,9 +126,9 @@ def main():
         total_squares = white_squares + black_squares
 
         results.append(total_squares == t[4])
-        
+
         # test row count
-        results.append(board.count('\n') + 1 == t[5])
+        results.append(board.count('\n') == t[5])
 
         # transform results into a set 
         results = set(results)
