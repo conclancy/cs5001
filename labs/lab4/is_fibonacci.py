@@ -29,7 +29,7 @@ def is_fibonacci(number):
 
         # increment numbers 
         if current_number < 1:
-            current_number +=1 
+            current_number += 1 
         else:
             next_number = current_number + previous_number
             previous_number = current_number
