@@ -9,9 +9,6 @@
 '''
 
 
-from random import random
-
-
 def number_greater_than(list1, list2):
     '''
     Takes in two lists of the same length and determines if the coresponding
