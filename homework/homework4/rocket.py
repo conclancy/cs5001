@@ -1,3 +1,12 @@
+''' CS5001.38359.202230 - SEC 05 - John Wilder
+    Homework 4 (Rocket)
+    clancy.co@northeastern.edu (002781018)
+    9 MAR 22 
+
+    This file contains functions that can be used to print a rocket ship.
+'''
+
+
 def head_tail(size):
     '''
     Used to generate the head or the tail of the rocket
