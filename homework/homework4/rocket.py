@@ -1,3 +1,26 @@
+def head_tail(size):
+    '''
+    Used to generate the head or the tail of the rocket
+    params: single int size
+    returns: multi-line string
+    '''
+
+def seperator(size):
+    '''
+    Creates a section seperator +=*...=*+
+    params: single int size
+    returns: multi-line string
+    '''
+
+    # function constant
+    ROW_SHAPE = "=*"
+
+    # generate seperator string
+    seperator_string = "+" + (size * 2 * ROW_SHAPE) + "+" + "\n"
+
+    return seperator_string
+
+
 def down_cone(size):
     '''
     Creates the downward facing code \/ 
@@ -77,16 +100,40 @@ def rocket(size):
     if size < 3:
         return("Rocket sizes must be at least 3")
 
+    # first seperator 
+    rocket = rocket + seperator(size)
+
     # first down cone 
     rocket = rocket + down_cone(size)
 
     # first up cone
     rocket = rocket + up_cone(size)
 
+    # second seperator 
+    rocket = rocket + seperator(size)
+
+    # second up cone
+    rocket = rocket + up_cone(size)
+
+    # second down cone 
+    rocket = rocket + down_cone(size)
+
+    # third seperator 
+    rocket = rocket + seperator(size)
+
+    # third down cone 
+    rocket = rocket + down_cone(size)
+
+    # third up cone
+    rocket = rocket + up_cone(size)
+
+    # fourth seperator 
+    rocket = rocket + seperator(size)
+
     print(rocket)
 
 
 def main():
-    rocket(4)
+    rocket(3)
 
 main()
