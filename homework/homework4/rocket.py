@@ -12,9 +12,8 @@ def head_tail(size):
 
     # generate head or tail string
     while slash_count < (size * 2): 
-        loop_string = " " + (space_count * " ") + (slash_count * "/") + ("**"
-                      ) + (slash_count * "\\") + (space_count * " "
-                      ) + " " + "\n"
+        loop_string = " " + (space_count * " ") + (slash_count * "/") + (
+                      "**") + (slash_count * "\\") + "\n"
 
         # add row to head or tail
         return_string = return_string + loop_string
@@ -158,7 +157,7 @@ def rocket(size):
     rocket = rocket + head_tail(size)
 
     # return all but last new line character
-    return(rocket[:-1])
+    return(rocket)
 
 
 if __name__ == "__main__":
