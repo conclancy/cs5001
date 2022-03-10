@@ -5,6 +5,25 @@ def head_tail(size):
     returns: multi-line string
     '''
 
+    # function variables
+    return_string = ""
+    slash_count = 1 
+    space_count = (size * 2) - 1
+
+    # generate head or tail string
+    while slash_count <= (size * 2): 
+        loop_string = (space_count * " ") + (slash_count * "/") + ("**") + (
+                      slash_count * "\\") + (space_count * " ") + "\n"
+
+        # add row to head or tail
+        return_string = return_string + loop_string
+
+        # update iteration variables
+        slash_count = slash_count + 1
+        space_count = space_count - 1
+
+    return return_string
+
 def seperator(size):
     '''
     Creates a section seperator +=*...=*+
@@ -100,6 +119,9 @@ def rocket(size):
     if size < 3:
         return("Rocket sizes must be at least 3")
 
+    # rocket head
+    rocket = rocket + head_tail(size)
+
     # first seperator 
     rocket = rocket + seperator(size)
 
@@ -129,6 +151,9 @@ def rocket(size):
 
     # fourth seperator 
     rocket = rocket + seperator(size)
+
+    # rocket tail
+    rocket = rocket + head_tail(size)
 
     print(rocket)
 
