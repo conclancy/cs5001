@@ -8,12 +8,13 @@ def head_tail(size):
     # function variables
     return_string = ""
     slash_count = 1 
-    space_count = (size * 2) - 1
+    space_count = (size * 2) - 2
 
     # generate head or tail string
-    while slash_count <= (size * 2): 
-        loop_string = (space_count * " ") + (slash_count * "/") + ("**") + (
-                      slash_count * "\\") + (space_count * " ") + "\n"
+    while slash_count < (size * 2): 
+        loop_string = " " + (space_count * " ") + (slash_count * "/") + ("**"
+                      ) + (slash_count * "\\") + (space_count * " "
+                      ) + " " + "\n"
 
         # add row to head or tail
         return_string = return_string + loop_string
@@ -23,6 +24,7 @@ def head_tail(size):
         space_count = space_count - 1
 
     return return_string
+
 
 def seperator(size):
     '''
@@ -35,14 +37,14 @@ def seperator(size):
     ROW_SHAPE = "=*"
 
     # generate seperator string
-    seperator_string = "+" + (size * 2 * ROW_SHAPE) + "+" + "\n"
+    seperator_string = "+" + (size * 2 * ROW_SHAPE) + "+" + "\n" 
 
     return seperator_string
 
 
 def down_cone(size):
     '''
-    Creates the downward facing code \/ 
+    Creates the downward facing code 
     params: single int size
     returns: multi-line string
     '''
@@ -74,7 +76,7 @@ def down_cone(size):
 
 def up_cone(size):
     '''
-    Creates the upward facing code /\ 
+    Creates the upward facing code 
     params: single int size
     returns: multi-line string
     '''
@@ -155,10 +157,10 @@ def rocket(size):
     # rocket tail
     rocket = rocket + head_tail(size)
 
-    print(rocket)
+    # return all but last new line character
+    return(rocket[:-1])
 
 
-def main():
-    rocket(3)
-
-main()
+if __name__ == "__main__":
+    size = int(input("Enter size:"))
+    print(rocket(size))
