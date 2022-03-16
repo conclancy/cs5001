@@ -35,8 +35,8 @@ def test_count_by_fives_recursive(ending_value):
 
 def count_by_fives_recursive(ending_value):
     '''
-    test_count_by_fives_recursive is willtest the count_by_fives_recursive
-    the expected outcome from the two functions should be the same.
+    count_by_fives_recursive returns alls values between 0 and the input 
+    number in the form of a list.
     :params int: single int that will be the largest value in the list
     :return: a list of multiples of 5 between 0 than the input value
     '''
