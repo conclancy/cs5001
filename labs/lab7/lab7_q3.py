@@ -4,7 +4,8 @@ Lab 7 - Question 2 (Multiples of 5 Again)
 clancy.co@northeastern.edu (002781018)
 16 MAR 22 
 
-The file contains a function that filters a list what
+The file contains a function that filters a list what to only show numbers
+above a given threshold.
 '''
 
 import random
@@ -18,21 +19,25 @@ def filter_list(input_list, threshold):
     :return: a list of numbers less than the threshold
     '''
 
+    # if the input_list variable is null, return a blank list
     if not input_list:
         return []
 
+    # if the first element in the list is above the threshold, send all
+    # other elements back into filter_list function and append the value
+    # to the returned list. 
     if input_list[0] > threshold:
         value_list = filter_list(input_list[1:], threshold)
         value_list.append(input_list[0])
         return sorted(value_list)
+
+    # else just pass all of the elements back into the function to continue
     else:
         value_list = filter_list(input_list[1:], threshold)
         return sorted(value_list)
 
 
 if __name__ == "__main__":
-    # print(filter_list([78, -51], 67))
-    # print([i for i in [-51, 78] if i > 67])
 
     # function vairables
     failed = 0 
