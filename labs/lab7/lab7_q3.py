@@ -4,12 +4,13 @@ Lab 7 - Question 2 (Multiples of 5 Again)
 clancy.co@northeastern.edu (002781018)
 16 MAR 22 
 
-The file contains a function that takes in a single number and returns a list
-with all of the multples of 5 less than or equal to that value
+The file contains a function that filters a list what
 '''
 
+import random
 
-def filter_list (input_list, threshold):
+
+def filter_list(input_list, threshold):
     '''
     filter_list takes in a list of numbers and a threshold and returns the
     numbers in the list that are less than the threshold.
@@ -26,8 +27,43 @@ def filter_list (input_list, threshold):
         return sorted(value_list)
     else:
         value_list = filter_list(input_list[1:], threshold)
-        return sorted(filter_list(input_list[1:], threshold))
+        return sorted(value_list)
 
 
 if __name__ == "__main__":
-    print(filter_list([1,2,3,4], 0))
+    # print(filter_list([78, -51], 67))
+    # print([i for i in [-51, 78] if i > 67])
+
+    # function vairables
+    failed = 0 
+
+    # run 1000 tests
+    for i in list(range(10)):
+
+        # create loop variable
+        test_list = []
+
+        # create list with 1 to 10 random floats
+        for j in list(range(random.randint(1, 10))):
+            test_list.append(random.randint(-100, 100))
+
+        print(sorted(test_list))
+
+        # get actual result from find_smallest function
+        threshold = random.randint(-100, 100)
+        actual = filter_list(test_list, threshold)
+
+        # use build in soreted function to find smallest element
+        tmp_list = [i for i in test_list if i > threshold]
+        expected = sorted(tmp_list)
+
+        # compare our test results to the build in function and 
+        # prints a string for a failed test
+        if actual != expected:
+            failed = failed + 1
+            print("threshold:", threshold)
+            print("Failed -", actual, "does not equal", expected)
+
+    # logic for if our tests all pass 
+    if failed == 0:
+        print("All tests passed")
