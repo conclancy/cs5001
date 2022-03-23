@@ -7,16 +7,16 @@ clancy.co@northeastern.edu (002781018)
 The file contains a code to draw a set of shapes using the turtles library
 '''
 
-import random
+
 import time
 import turtle
 
 
-def make_angle_list(degrees, starting_angle = 0): 
+def make_angle_list(sides, starting_angle = 0): 
     angle_list = []
     a = 0
 
-    degrees = round(360 / degrees, 4)
+    degrees = round(360 / sides, 4)
 
     while a < 360: 
         starting_angle = round(starting_angle + degrees, 4)
@@ -25,26 +25,25 @@ def make_angle_list(degrees, starting_angle = 0):
 
     return  angle_list
 
-def make_polygon(turtle, sides, size, color, starting_angle = 0):
-    # COLOR_LIST = ['red', 'blue', 'purple', 'pink']
 
-    equal_angles = round(360 / sides, 4)
+def make_polygon(turtle, sides, size, color, angle = 0, x_cor = 0, y_cor = 0):
+    
+    turtle.width(5)
+    turtle.setposition(x_cor, y_cor)
 
-    angle_list = make_angle_list(equal_angles) 
+    turtle.down()
 
-    a = 0
+    angle_list = make_angle_list(sides) 
+    print(angle_list)
 
-    while a < 360: 
-        starting_angle = round(starting_angle + equal_angles, 4)
-        angle_list.append(starting_angle)
-        a = a + equal_angles
-
-    turtle.setheading(starting_angle)
-
-    for i in angle_list:
+    turtle.setheading(angle)
+ 
+    for a in angle_list:
         turtle.color(color)
         turtle.forward(size)
-        turtle.setheading(i)
+        turtle.setheading(a)
+    
+    turtle.up()
 
 
 def make_circle(turtle, radius, color, angle = 360, position = 0):
@@ -63,7 +62,11 @@ def make_circle(turtle, radius, color, angle = 360, position = 0):
 
 
 def make_sun(turtle, x_cordinate, y_cordinate):
+
+    turtle.width(1)
     turtle.setposition(x_cordinate, y_cordinate)
+
+    turtle.down()
 
     for i in range(10):
 
@@ -80,6 +83,8 @@ def make_sun(turtle, x_cordinate, y_cordinate):
             t.right(120)
         
         t.right(36)
+    
+    turtle.up()
 
 
 if __name__ == "__main__":
@@ -90,20 +95,16 @@ if __name__ == "__main__":
 
     # instatiate turtle
     t = turtle.Turtle()
-    t.speed(999)
+    t.speed(20)
+    t.up()
 
-    '''
-    for i in make_angle_list(10):
-        # random.randint(0, 3)
-        make_polygon(t, 4, 100, 'red', i)
+    # make house 
+    make_polygon(t, 4, 75, "grey", 0, 150, -50)
 
-    for i in make_angle_list(30):
-        # random.randint(0, 3)
-        make_polygon(t, 3, 150, 'blue', i)
-    '''
     # make sun
     make_sun(t, -300, 300)
 
+    # make rainbow
     colors = ['violet', 'indigo', 'blue', 'green', 'yellow', 'orange', 'red']
     t.right(-90)
     t.width(5)
@@ -111,4 +112,4 @@ if __name__ == "__main__":
     for c in range(7):
         make_circle(t, 30 * (c + 8), colors[c], -180, -30 * (c + 1))
     
-    time.sleep(10)
+    time.sleep(5)
