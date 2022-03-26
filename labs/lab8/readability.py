@@ -1,3 +1,13 @@
+''' 
+CS5001.38359.202230 - SEC 05 - John Wilder
+Lab 8 - Readability
+clancy.co@northeastern.edu (002781018)
+26 MAR 22 
+
+The file calculates the Flesch Index and Flesch Grade Level for a text file
+'''
+
+
 def analyze_file_data(file_data):
     '''
     Function: analyze_file_data
@@ -7,7 +17,6 @@ def analyze_file_data(file_data):
     Returns the number of sentences (int), the number of words (int),
         and the number of syllables in file_data
     '''
-
 
     # variables 
     word_list = []
@@ -68,7 +77,7 @@ def punctuation_handler(word_list):
                 punctuation = punctuation + 1
 
             # append all non-punctuation characters to the new_string
-            else:
+            elif character.isalnum():
                 new_string = new_string + character
 
         # add the punctuatio-free string to the return word list
@@ -93,6 +102,10 @@ def count_syllables(word):
     vowels = ['a', 'e', 'i', 'o', 'u', 'y']
     syllables = 0 
 
+    # don't count strings of just spaces
+    if word.isspace():
+        return 0
+
     # vowel work
     if word[0] in vowels:
         syllables = syllables + 1
@@ -104,7 +117,7 @@ def count_syllables(word):
             syllables = syllables + 1
 
     # if the final letter is an 'e', then 
-    if word[-1] == 'e':
+    if word[-1] == 'e' and word[-2] not in vowels:
         syllables = syllables - 1
 
     # all words have at least one syllable, return 1 if count is less than 1
@@ -147,37 +160,32 @@ def flesch_grade(index):
     elif index < 65:
         return "High schooler"
     elif index < 70:
-        return "8th grader"
+        return "8th Grader"
     elif index < 80:
-        return "7th grader"
+        return "7th Grader"
     elif index < 90:
-        return "6th grader"
-    elif index < 100:
-        return "5th grader"
+        return "6th Grader"
+    elif index <= 100:
+        return "5th Grader"
     else:
         return None
 
 
 def main():
     """ The main driver of the program. """
-   
-    # create loop variables
-    file = None
 
-    while file is None:
+    # Ask user for name of file to analyze.
+    filename = input("Filename: ")
 
-        # Ask user for name of file to analyze.
-        filename = input("Filename: ")
-
-        try:
-            file = open(filename, "r") 
-        except FileNotFoundError: 
-            print(filename, "does not exist")
-        except PermissionError: 
-            print("You do not have sufficient permissions to open", )
-        except OSError:
-            print("An unexpected error occurred while attempting to open", 
-                filename)
+    try:
+        file = open(filename, "r") 
+    except FileNotFoundError: 
+        print(filename, "does not exist")
+    except PermissionError: 
+        print("You do not have sufficient permissions to open", )
+    except OSError:
+        print("An unexpected error occurred while attempting to open", 
+              filename)
 
     # Open file for reading.
     input_file = open(filename, 'r')
