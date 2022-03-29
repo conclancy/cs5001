@@ -177,15 +177,20 @@ def get_scores(words):
         "y": 4, 
         "z": 10}
 
+    # create variable to store scored words
     scored_words = {}
-    
+
+    # iterate through the list of input words
     for word in words:
 
+        # create a loop variable to store word score
         word_score = 0 
 
+        # iterate through the letters and score each one
         for letter in word: 
             word_score = word_score + LETTER_SCORE[letter]
-        
+
+        # add the new word and its score to the scored_word dictionary
         scored_words[word] = word_score
 
     return scored_words
