@@ -190,9 +190,9 @@ def get_scores(words):
         for letter in word: 
             word_score = word_score + LETTER_SCORE[letter]
 
-        # add the new word and its score to the scored_word dictionary
-        # scored_words[word] = word_score
-
+        # if the key exists, add the word to its list, otherwise add a key
+        # to the dictionary and add the word as the first word in the value 
+        # list
         try: 
             scored_words[word_score].append(word)
         except KeyError:
