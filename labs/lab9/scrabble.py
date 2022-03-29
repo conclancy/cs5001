@@ -191,7 +191,12 @@ def get_scores(words):
             word_score = word_score + LETTER_SCORE[letter]
 
         # add the new word and its score to the scored_word dictionary
-        scored_words[word] = word_score
+        # scored_words[word] = word_score
+
+        try: 
+            scored_words[word_score].append(word)
+        except KeyError:
+            scored_words[word_score] = [word]
 
     return scored_words
 
