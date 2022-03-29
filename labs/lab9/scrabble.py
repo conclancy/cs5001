@@ -103,8 +103,39 @@ def get_words(max_length, word_dict, letters):
         max_length -- maximum length of the word to be displayed
     Returns a list of words containing the user input letters
     '''
-    # TODO Implement me!!
 
+    # create variables
+    key_list = []
+    filtered_words = []
+    
+    # create a list of relevant word lengths
+    for key in word_dict.keys(): 
+        if key <= max_length:
+            key_list.append(key)
+
+    # order the list so we search the dictionary in order
+    key_list.sort()
+
+    # for each word length
+    for key in key_list:
+
+        # for each word of the key length
+        for word in word_dict[key]: 
+
+            # creat a variable to assume all desired letters are in word
+            append_word = True 
+
+            # test each desired letter, if its not in the word, change the 
+            # append_word variable to false
+            for letter in letters: 
+                if letter not in word: 
+                    append_word = False
+
+            # if append_word is true, add the word to the filtered list
+            if append_word:
+                filtered_words.append(word)
+
+    return filtered_words
 
 def get_scores(words):
     '''
