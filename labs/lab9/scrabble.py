@@ -34,7 +34,6 @@ def read_text_file():
         return file_data
     except FileNotFoundError or PermissionError or OSError:
         raise ValueError("Error occurred reading the word list")
-    
 
 
 def store_words(file_data):
@@ -66,7 +65,6 @@ def store_words(file_data):
     return dictionary
 
 
-
 def interpret_input(data):
     '''
     Function -- interpret_input
@@ -77,6 +75,7 @@ def interpret_input(data):
     Returns the number of highest scoring words to display
         and the letters the word should contain
     '''
+
     if not isinstance(data, str):
         raise TypeError("interpret_input is expecting a string parameter")
 
@@ -104,10 +103,12 @@ def get_words(max_length, word_dict, letters):
     Returns a list of words containing the user input letters
     '''
 
+    print("printing input letters:", letters)
+
     # create variables
     key_list = []
     filtered_words = []
-    
+
     # create a list of relevant word lengths
     for key in word_dict.keys(): 
         if key <= max_length:
@@ -137,6 +138,7 @@ def get_words(max_length, word_dict, letters):
 
     return filtered_words
 
+
 def get_scores(words):
     '''
     Function -- get_scores
@@ -147,7 +149,7 @@ def get_scores(words):
         words -- List of words containing the user input letters
     Returns a dictionary containing the points as keys and the words as values
     '''
-    
+
     # create dictionary constant for letter score
     LETTER_SCORE = {
         "a": 1,
@@ -210,9 +212,11 @@ def print_scores(scores, number):
         number -- number of highest scoring words to display
     '''
     if not isinstance(scores, dict):
-        raise TypeError("scrabble_scores is expecting a dictionary as the first parameter")
+        raise TypeError("scrabble_scores is expecting a dictionary as the \
+                         first parameter")
     if not isinstance(number, int):
-        raise TypeError("scrabble_scores is expecting an integer as the second parameter")
+        raise TypeError("scrabble_scores is expecting an integer as the \
+                         second parameter")
 
     count = 1
     for key in sorted(scores, reverse=True):
@@ -230,6 +234,7 @@ def get_new_length(cmd):
         cmd -- the command to change the length
     Returns the new length
     '''
+
     if not isinstance(cmd, str):
         raise TypeError("get_new_length is expecting a string as a parameter")
     length = ''
@@ -242,11 +247,13 @@ def get_new_length(cmd):
 
 def main():
     ''' The program driver '''
+
     file_data = read_text_file()
     word_dict = store_words(file_data)
     max_length = 7
 
     cmd = input('> ')
+
     # Process user response
     while cmd != 'quit()':
         if cmd.startswith("len("):
