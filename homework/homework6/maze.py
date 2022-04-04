@@ -1,0 +1,123 @@
+''' 
+CS5001.38359.202230 - SEC 05 - John Wilder
+Homework 6 - Maze
+clancy.co@northeastern.edu (002781018)
+03 April 2022
+
+The file calculates Maze class used for creating a maze. 
+'''
+
+import os
+import sys
+from cell import Cell
+
+
+class Maze:
+    '''
+    Maze class for creating your maze object
+    attributes: width, height
+    methods: #TODO 
+    '''
+
+    def __init__(self, width = 13, height = 7, file="") -> None:
+        '''Constructor for the Maze Class'''
+
+        # set the width attribute
+        if isinstance(width, int):
+            if width >= 3 and width <= 120:
+                self.width = width
+            else:
+                raise ValueError('Acceptable width values: 3 <= w <= 120')
+        else:
+            raise TypeError('Width must be of type int.')
+
+        # set the height attribute
+        if isinstance(height, int):
+            if height >= 3 and height <= 40:
+                self.height = height
+            else:
+                raise ValueError('Acceptable height values: 3 <= h <= 40')
+        else:
+            raise TypeError('height must be of type int.')
+        
+        # set the filename attribute
+        if isinstance(file, str):
+            self.file = file
+        else:
+            raise TypeError('file must be if type str')
+        
+        # initalize a blank cells list attribute
+        self.cells = []
+
+    def read_maze_file(self) -> None:
+        '''
+        read_maze_file reads a maze file and sets the cells list attribute
+        params self
+        returns nothing
+        '''
+
+        # read in the requested file
+        file = open(os.path.join(sys.path[0], self.file), 'r')
+
+        # Read all of the contents of the file
+        # into a list of strings called filedata.
+        filedata = file.readlines()
+
+        # set row count variable
+        row_count = 1
+
+        # iterate through each row of the maze 
+        for row in filedata:
+
+            # skip the first row since it contains the numbers
+            column_count = 1
+            row_list =[]
+
+            # for all rows except the first war
+            if row_count > 1:
+
+                # for every character except the last \n character
+                # create a cell for that object.
+                for cell in row[:-1]:
+                    row_list.append(Cell(row_count, column_count, cell))
+                    column_count += 1 
+                
+                self.cells.append(row_list)
+
+            row_count += 1
+
+
+    def get_maze(self) -> str:
+        '''
+        get_maze returns the maze set up as a multi-line string.
+        param None
+        returns a multi-line string representing the board
+        '''
+
+        # create a blank string variable to house the board
+        maze = ''
+
+        # for each cell in the maze, add its 'type' to the board string
+        for row in self.cells:
+
+            # create empty string variable to house row characters
+            row_string = ''
+
+            for cell in row:
+                row_string += cell.cell_type
+
+            # add a new line character at the end of the row
+            row_string += '\n'
+
+            # add the row to the maze string
+            maze += row_string
+        
+        return maze
+
+
+if __name__ == "__main__":
+    m = Maze(13, 7, "maze-snake.txt")
+    m.read_maze_file()
+    print(m.get_maze())
+
+#TODO: flip the Maze constructor to take in the file name first and read dimensions from the file
