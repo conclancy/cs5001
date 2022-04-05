@@ -9,7 +9,7 @@ The file calculates Cell class used for creating a maze.
 
 
 from json.encoder import INFINITY
-from multiprocessing.dummy import Value
+from turtle import width
 
 
 class Cell:
@@ -147,7 +147,7 @@ class Cell:
             self.direction = ""
 
 
-    def make_start(self) -> None:
+    def make_start(self) -> list:
         '''
         make_start changes a valid space cell into an 'S' start square
         params: None
@@ -157,37 +157,43 @@ class Cell:
         if self.cell_type == ' ':
             self.cell_type = 'S'
         
+        return [self.column, self.row]
+        
         # TODO add error handling
 
 
-    def is_neighbor(self, x, y) -> bool:
+    def is_neighbor(self, x, y) -> str:
         '''
         is_neighbor allow the cell to tell you if it is a neightbor to the 
             cell with input cordinates x and y.  A neighbor is defined as a
             cell that shares an edge with the current cell. 
         params: two ints, x and y
-        returns: bool representing whether or not the cell is a neighbor
+        returns: str, exit for exit cells, and yes/no for all others
         '''
+
+        # exit cell logic
+        if self.cell_type == 'E':
+            return 'exit'
 
         # North cell
         if self.row == y - 1 and self.column == x:
-            return True
+            return 'yes'
         
         # East cell
         elif self.row == y and self.column == x + 1:
-            return True
+            return 'yes'
 
         # South cell
         elif self.row == y + 1 and self.column == x:
-            return True
+            return 'yes'
 
         # West cell
         elif self.row == y and self.column == x - 1:
-            return True
+            return 'yes'
         
         # all other cells return False, not a neighbor
         else:
-            return False
+            return 'no'
 
 
 if __name__ == "__main__":

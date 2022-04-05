@@ -54,8 +54,12 @@ class Maze:
         else:
             raise TypeError('file must be if type str')
 
-        # hidden initalization of the start cell
-        self.start_cell = [-1, -1]
+        # hidden initalization of the start cells
+        # start position of the cell in the maze list
+        self.start_cell_position = [-1, -1]
+
+        # start position of the cell using x, y cordinates
+        self.start_cell_xy = [-1, -1]
 
 
     def read_maze_file(self) -> None:
@@ -233,15 +237,16 @@ class Maze:
 
         # initialize the x value of th start
         # subtract 1 because the first element in a python list is 0
-        self.start_cell[0] = start[0] - 1
+        self.start_cell_position[0] = start[0] - 1
 
         # initialize the y value of th start
         # subtract 1 because the first element in a python list is 0
-        self.start_cell[1] = start[1] - 1
+        self.start_cell_position[1] = start[1] - 1
 
         # make the user identified cell the start cell
-        self.cells[self.start_cell[0]][self.start_cell[1]].make_start()
-
+        start_x = self.start_cell_position[0]
+        start_y = self.start_cell_position[1]
+        self.start_cell_xy = self.cells[start_x][start_y].make_start()
 
 
     def find_exits(self, start):   
@@ -258,9 +263,14 @@ class Maze:
 
         # initialization 
         self.set_start(start)
+        start_x = self.start_cell_xy[0]
+        start_y = self.start_cell_xy[1]
 
         # find the neighbors to the start cell and change to distance 1
-        # for 
+        for cell in self.get_all_cells():
+            if cell.is_neighbor(start_x, start_y) == 'yes':
+                cell.set_distance(1.0)
+
 
         # TODO: Ask all cells if they are the neighbor of the 'S' and change to 1
         # TODO: Then ask all th squares if they are neighbors of 1, 2, 3, etc. 
