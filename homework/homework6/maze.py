@@ -19,7 +19,7 @@ class Maze:
     methods: #TODO 
     '''
 
-    def __init__(self, width = 13, height = 7, file="") -> None:
+    def __init__(self, file, width = 0, height = 0) -> None:
         '''Constructor for the Maze Class'''
 
         # set the width attribute
@@ -40,14 +40,20 @@ class Maze:
         else:
             raise TypeError('height must be of type int.')
         
+        # initalize a blank cells list attribute
+        self.cells = []
+
         # set the filename attribute
         if isinstance(file, str):
             self.file = file
+
+            if file == "":
+                pass
+            else:
+                self.read_maze_file()
         else:
             raise TypeError('file must be if type str')
-        
-        # initalize a blank cells list attribute
-        self.cells = []
+
 
     def read_maze_file(self) -> None:
         '''
@@ -69,12 +75,18 @@ class Maze:
         # iterate through each row of the maze 
         for row in filedata:
 
-            # skip the first row since it contains the numbers
+            # create variables
             column_count = 1
             row_list =[]
 
-            # for all rows except the first war
-            if row_count > 1:
+            # use the first row to set the dimensions 
+            if row_count == 1:
+                dimensions = row.split()
+                self.width = int(dimensions[0])
+                self.height = int(dimensions[1])
+
+            # use the remaining rows to build the maze
+            else:
 
                 # for every character except the last \n character
                 # create a cell for that object.
@@ -85,6 +97,61 @@ class Maze:
                 self.cells.append(row_list)
 
             row_count += 1
+
+
+    def read_maze_keyboard(self) -> None:
+        '''
+        read_maze_keyboard allows the user to generate a maze manually
+        params self
+        returns nothing
+        '''
+
+        # create variables 
+        user_prompt = "Enter " + str(self.width) + " characters:"
+        current_row = 1
+
+        # prompt the user to enter 1 row at a time
+        while current_row <= self.height:
+            
+            # create variables
+            iteration = 0
+            column_count = 1
+            row_list =[]
+            characters = ""
+
+            # ensure the user enters the right number of characters
+            while len(characters) != self.width:
+                characters = ""
+
+                # if this is not the first time in this loop, remind the user
+                # of the proper string length before next prompt
+                if iteration > 0: 
+                    print("Your input length is incorrect!")
+                    print("Please enter", self.width, "valid characters")
+
+                # prompt the user for the row 
+                user_input = input(user_prompt)
+
+                # check each character to ensure it is a valid input 
+                for i in user_input:
+                    if i not in ['X', 'E', ' ']:
+                        print("You entered an invalid character")
+                        print("Please only enter: 'X', 'S', 'E', ' '")
+                    else: 
+                        characters += i
+
+                # increment the iteration variable in case we need to repeat
+                iteration += 1
+
+            # once all row checks pass, create a maze cell for each of the 
+            # characters the users input and add them to the row
+            for c in characters:
+                row_list.append(Cell(current_row, column_count, c))
+                column_count += 1 
+
+            self.cells.append(row_list)
+            current_row += 1
+
 
 
     def get_maze(self) -> str:
@@ -116,8 +183,12 @@ class Maze:
 
 
 if __name__ == "__main__":
-    m = Maze(13, 7, "maze-snake.txt")
-    m.read_maze_file()
-    print(m.get_maze())
 
-#TODO: flip the Maze constructor to take in the file name first and read dimensions from the file
+    '''
+    m = Maze("maze-snake.txt", 13, 7)
+    print(m.get_maze())
+    '''
+
+    m = Maze("", 3, 3)
+    m.read_maze_keyboard()
+    print(m.get_maze())
