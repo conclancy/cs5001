@@ -222,6 +222,7 @@ class Maze:
         # subtract 1 because the first element in a python list is 0
         self.start_cell[1] = start[1] - 1
 
+        # make the user identified cell the start cell
         self.cells[self.start_cell[0]][self.start_cell[1]].make_start()
 
 
@@ -245,8 +246,11 @@ class Maze:
 if __name__ == "__main__":
 
     m = Maze("maze-snake.txt", 13, 7)
-    m.set_start([6,2])
+    m.find_exits([6,2])
     print(m.get_maze())
+    m.reset_maze()
+    print(m.get_maze())
+
 
     '''
     m = Maze("", 3, 3)

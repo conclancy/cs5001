@@ -134,8 +134,9 @@ class Cell:
         Returns:None
         '''
 
-        # only reset the valid space ' ' cells
-        if self.cell_type == ' ':
+        # only reset the valid space ' ' or start 'S' cells
+        if self.cell_type in [' ', 'S']:
+            self.cell_type = ' '
             self.distance = INFINITY
             self.direction = ""
 
