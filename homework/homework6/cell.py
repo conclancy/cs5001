@@ -124,12 +124,14 @@ class Cell:
         '''
 
         # returns the cell type or the distane of the cell
+
         if self.cell_type != ' ':
             return self.cell_type
         elif self.distance != INFINITY:
             return str(int(self.distance))
         else:
             return self.cell_type
+
 
 
     def clear_cell(self) -> None:
@@ -147,6 +149,33 @@ class Cell:
             self.direction = ""
 
 
+    def get_xy(self) -> list:
+        '''
+        get_xy returns the x and y coordinates for the cell
+        params: None
+        returns: a list with the x and y coordinats
+        '''
+
+        return [self.column, self.row]
+
+
+    def get_x(self) -> int:
+        '''
+        get_x returns the x coorindate for the cell
+        params: None
+        return: the x coordinate as a integer 
+        '''
+        return self.column
+    
+    def get_y(self) -> int:
+        '''
+        get_y returns the y coorindate for the cell
+        params: None
+        return: the y coordinate as a integer 
+        '''
+        return self.row
+
+
     def make_start(self) -> list:
         '''
         make_start changes a valid space cell into an 'S' start square
@@ -157,43 +186,39 @@ class Cell:
         if self.cell_type == ' ':
             self.cell_type = 'S'
         
-        return [self.column, self.row]
+        return self.get_xy()
         
         # TODO add error handling
 
 
-    def is_neighbor(self, x, y) -> str:
+    def is_neighbor(self, x, y) -> bool:
         '''
         is_neighbor allow the cell to tell you if it is a neightbor to the 
             cell with input cordinates x and y.  A neighbor is defined as a
             cell that shares an edge with the current cell. 
         params: two ints, x and y
-        returns: str, exit for exit cells, and yes/no for all others
+        returns: bool for whether or not the cell is a neighbor
         '''
-
-        # exit cell logic
-        if self.cell_type == 'E':
-            return 'exit'
 
         # North cell
         if self.row == y - 1 and self.column == x:
-            return 'yes'
+            return True
         
         # East cell
         elif self.row == y and self.column == x + 1:
-            return 'yes'
+            return True
 
         # South cell
         elif self.row == y + 1 and self.column == x:
-            return 'yes'
+            return True
 
         # West cell
         elif self.row == y and self.column == x - 1:
-            return 'yes'
+            return True
         
         # all other cells return False, not a neighbor
         else:
-            return 'no'
+            return False
 
 
 if __name__ == "__main__":

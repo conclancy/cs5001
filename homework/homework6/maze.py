@@ -294,7 +294,7 @@ class Maze:
                 for cell in self.get_all_cells():
 
                     # change the 
-                    if cell.is_neighbor(n_x, n_y) in ['yes']:
+                    if cell.is_neighbor(n_x, n_y):
                         cell.set_distance(float(distance))
                     
                         if cell.cell_type == 'E':
