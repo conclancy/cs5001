@@ -121,7 +121,6 @@ class Cell:
         if self.cell_type in [' ', 'S', '*']:
             self.cell_type = ' '
             self.distance = INFINITY
-            self.direction = ""
 
 
     def get_xy(self) -> list:
@@ -160,6 +159,8 @@ class Cell:
 
         if self.cell_type == ' ':
             self.cell_type = 'S'
+        else:
+            raise ValueError('select a valid empty cell as the start cell')
 
         return self.get_xy()
 
