@@ -4,12 +4,11 @@ Homework 6 - Maze
 clancy.co@northeastern.edu (002781018)
 03 April 2022
 
-The file calculates Cell class used for creating a maze. 
+The file contains the Cell class used for creating a maze. 
 '''
 
 
 from json.encoder import INFINITY
-from turtle import width
 
 
 class Cell:
@@ -19,8 +18,7 @@ class Cell:
     methods: 
     '''
 
-    def __init__(self, row, column, cell_type, distance = INFINITY, 
-                 direction = "") -> None:
+    def __init__(self, row, column, cell_type, distance = INFINITY) -> None:
         '''Constructor for the Cell Class'''
 
         # sets the row attribute if it is an int
@@ -56,17 +54,6 @@ class Cell:
             self.distance = distance
         else:
             raise TypeError("distance must be of type float")
-        
-        if isinstance(direction, str):
-            directions = ['North', 'South', 'East', 'West', ""]
-
-            if direction in directions:
-                self.direction = direction
-            else:
-                raise ValueError("direction must equal 'North', 'South', \
-                                 'East', 'West'")
-        else:
-            raise TypeError("direction must be of type str")
 
 
     def __str__(self) -> str:
@@ -132,6 +119,13 @@ class Cell:
         else:
             return self.cell_type
 
+    def clear_distance(self) -> None:
+        '''
+        clear_distance sets the cells distance back to infinity
+        params: None
+        Returns: void
+        '''
+        self.distance = INFINITY
 
 
     def clear_cell(self) -> None:
@@ -139,7 +133,7 @@ class Cell:
         clear_distance chances all of the space cells back to INFINITY so the
             maze solver can be run again
         params: None 
-        Returns:None
+        Returns:void
         '''
 
         # only reset the valid space ' ' or start 'S' cells
@@ -166,7 +160,7 @@ class Cell:
         return: the x coordinate as a integer 
         '''
         return self.column
-    
+
     def get_y(self) -> int:
         '''
         get_y returns the y coorindate for the cell
@@ -185,10 +179,8 @@ class Cell:
 
         if self.cell_type == ' ':
             self.cell_type = 'S'
-        
+
         return self.get_xy()
-        
-        # TODO add error handling
 
 
     def is_neighbor(self, x, y) -> bool:
@@ -203,7 +195,7 @@ class Cell:
         # North cell
         if self.row == y - 1 and self.column == x:
             return True
-        
+
         # East cell
         elif self.row == y and self.column == x + 1:
             return True
@@ -215,7 +207,7 @@ class Cell:
         # West cell
         elif self.row == y and self.column == x - 1:
             return True
-        
+
         # all other cells return False, not a neighbor
         else:
             return False
@@ -224,6 +216,5 @@ class Cell:
 if __name__ == "__main__":
     test_cell = Cell(3, 4, " ") 
 
-    test_cell.set_direction("North")
     test_cell.set_distance(1.0)
     print(test_cell.get_distance())

@@ -4,9 +4,10 @@ Homework 6 - Maze
 clancy.co@northeastern.edu (002781018)
 03 April 2022
 
-The file calculates Maze class used for running the maze solver. 
+The file contains the Maze class used for running the maze solver. 
 '''
 
+from json.encoder import INFINITY
 import os
 import sys
 from cell import Cell
@@ -39,7 +40,7 @@ class Maze:
                 raise ValueError('Acceptable height values: 3 <= h <= 40')
         else:
             raise TypeError('height must be of type int.')
-        
+
         # hidden initalization of blank cells list attribute
         self.cells = []
 
@@ -100,7 +101,7 @@ class Maze:
                 for cell in row[:-1]:
                     row_list.append(Cell(row_count, column_count, cell))
                     column_count += 1 
-                
+
                 self.cells.append(row_list)
 
             row_count += 1
@@ -119,7 +120,7 @@ class Maze:
 
         # prompt the user to enter 1 row at a time
         while current_row <= self.height:
-            
+
             # create variables
             iteration = 0
             column_count = 1
@@ -160,7 +161,6 @@ class Maze:
             current_row += 1
 
 
-
     def get_maze(self) -> str:
         '''
         get_maze returns the maze set up as a multi-line string.
@@ -185,7 +185,7 @@ class Maze:
 
             # add the row to the maze string
             maze += row_string
-        
+
         return maze
 
 
@@ -203,7 +203,7 @@ class Maze:
         for row in self.cells:
             for cell in row: 
                 all_cells.append(cell)
-        
+
         return all_cells
 
 
@@ -230,7 +230,7 @@ class Maze:
 
         if len(start) != 2:
             raise ValueError("start must be a list with two int elements")
-        
+
         for i in start:
             if not isinstance(i, int):
                 raise TypeError("start must be a list with two int elements")
@@ -270,7 +270,6 @@ class Maze:
         start_x = self.start_cell_xy[0]
         start_y = self.start_cell_xy[1]
 
-
         # loop through remainin cells and identify distnace until an exit 
         distance = 1
         exit_found = False 
@@ -302,56 +301,53 @@ class Maze:
                     # change the neighbors distance
                     if cell.is_neighbor(n_x, n_y):
                         cell.set_distance(float(distance))
-                    
+
+                        # end the loop if the neighbor is an exit cell
                         if cell.cell_type == 'E':
-                            print('exit:', cell)
 
                             exit_x = cell.get_x()
                             exit_y = cell.get_y()
 
                             exit_found = True
-                            #TODO change this to a list???
-            
+
             distance = distance + 1
 
+        # initiate path variables for proceeding loop
+        path_x = exit_x
+        path_y = exit_y
+
+        # loop through cells to mark the best path
         while exit_found:
 
-            path = [] 
-            find_path = []
-            
-            # add the numbered cells to the find_path list
-            for cell in self.get_all_cells():
-                if cell.get_distance() == float(distance):
-                    find_path.append()
-            
-            # prevent infinite loops
-            if len(find_path) < 1:
+            # prevent infinite loop
+            if distance < 0:
                 break
 
-            for p in find_path:
-                p_x = p[0]
-                p_y = p[1]
+            # add the numbered cells to the find_path list
+            for cell in self.get_all_cells():
+                if cell.is_neighbor(path_x, path_y): 
+                    if cell.distance == float(distance):
 
-                for cell in self.get_all_cells: 
+                        if cell.cell_type == ' ':
+                            cell.cell_type = '*'
+                            path_x = cell.get_x()
+                            path_y = cell.get_y()
 
-                    if cell.cell_type != '*':
-                        if cell.is_neighbor(n_x, n_y):
-                            if cell.cell_type in
+                    elif cell.cell_type == 'S':
+                        print('start:', cell)
+                        exit_found == False
 
-            
+            distance = distance - 1
 
-
-
-        # TODO: Record the cell that triggered the exit
-        # TODO: Find the exit's neighbor with the smallest distance
-        # TODO: Change type (not number) to *, repeat until you get to 1
+        for cell in self.get_all_cells():
+            cell.clear_distance()
 
 
 if __name__ == "__main__":
 
     # '''
-    m = Maze("maze-many exits.txt", 13, 7)
-    m.find_exits([6,2])
+    m = Maze("maze-unreachable.txt", 13, 7)
+    m.find_exits([2,7])
     print(m.get_maze())
     m.reset_maze()
     print(m.get_maze())
