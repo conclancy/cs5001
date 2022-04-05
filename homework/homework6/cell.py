@@ -126,7 +126,7 @@ class Cell:
             return self.cell_type
 
 
-    def clear_distance(self) -> None:
+    def clear_cell(self) -> None:
         '''
         clear_distance chances all of the space cells back to INFINITY so the
             maze solver can be run again
@@ -137,7 +137,20 @@ class Cell:
         # only reset the valid space ' ' cells
         if self.cell_type == ' ':
             self.distance = INFINITY
+            self.direction = ""
 
+
+    def make_start(self) -> None:
+        '''
+        make_start changes a valid space cell into an 'S' start square
+        params: None
+        returns: None
+        '''
+
+        if self.cell_type == ' ':
+            self.cell_type = 'S'
+        
+        # TODO add error handling
 
 if __name__ == "__main__":
     test_cell = Cell(3, 4, " ") 

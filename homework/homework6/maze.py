@@ -40,7 +40,7 @@ class Maze:
         else:
             raise TypeError('height must be of type int.')
         
-        # initalize a blank cells list attribute
+        # hidden initalization of blank cells list attribute
         self.cells = []
 
         # set the filename attribute
@@ -53,6 +53,9 @@ class Maze:
                 self.read_maze_file()
         else:
             raise TypeError('file must be if type str')
+
+        # hidden initalization of the start cell
+        self.start_cell = [-1, -1]
 
 
     def read_maze_file(self) -> None:
@@ -171,7 +174,7 @@ class Maze:
             row_string = ''
 
             for cell in row:
-                row_string += cell.cell_type
+                row_string += cell.get_distance()
 
             # add a new line character at the end of the row
             row_string += '\n'
@@ -182,13 +185,71 @@ class Maze:
         return maze
 
 
+    def reset_maze(self):
+        '''
+        reset_maze clears all of the disance and direction from all of the 
+            cells in the maze
+        params: None
+        returns: None
+        '''
+
+        # clear the distance and direction from all the cells in the maze
+        for row in self.cells:
+            for cell in row: 
+                cell.clear_cell()
+
+
+    def set_start(self, start) -> None:
+        '''
+        set_start sets the start attribute for the maze so that we know where
+            to begin parsing the maze
+        params: None
+        returns: None
+        '''
+
+        if len(start) != 2:
+            raise ValueError("start must be a list with two int elements")
+        
+        for i in start:
+            if not isinstance(i, int):
+                raise TypeError("start must be a list with two int elements")
+
+        # initialize the x value of th start
+        # subtract 1 because the first element in a python list is 0
+        self.start_cell[0] = start[0] - 1
+
+        # initialize the y value of th start
+        # subtract 1 because the first element in a python list is 0
+        self.start_cell[1] = start[1] - 1
+
+        self.cells[self.start_cell[0]][self.start_cell[1]].make_start()
+
+
+
+    def find_exits(self, start):   
+        '''
+        find_exits identifies all of the exits on cells that are categorized 
+            as exits on the board.
+        params: start is a list containing two elements with the x and y 
+            cordinates of the start location.
+        returns:  #TODO -> Type
+        '''
+
+        # clear the maze to ensure we are calculating correctly. 
+        self.reset_maze()
+
+        # initialization 
+        self.set_start(start)
+
+
 if __name__ == "__main__":
 
-    '''
     m = Maze("maze-snake.txt", 13, 7)
+    m.set_start([6,2])
     print(m.get_maze())
-    '''
 
+    '''
     m = Maze("", 3, 3)
     m.read_maze_keyboard()
     print(m.get_maze())
+    '''
