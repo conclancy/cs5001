@@ -12,6 +12,10 @@ import unittest
 
 
 class CellTest(unittest.TestCase):
+    '''
+    CellTest extents the TestCase class to test the functionality
+    of the Cell class
+    '''
 
     def test_init(self):
         '''Test the initatilization of a cell'''
