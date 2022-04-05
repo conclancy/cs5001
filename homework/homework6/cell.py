@@ -51,7 +51,10 @@ class Cell:
             raise TypeError("column must be of type str")
 
         if isinstance(distance, float):
-            self.distance = distance
+            if distance < 0:
+                raise ValueError("distance must be a float > 0")
+            else:
+                self.distance = distance
         else:
             raise TypeError("distance must be of type float")
 
@@ -59,8 +62,7 @@ class Cell:
     def __str__(self) -> str:
         '''Set class default string print behavior'''
         return str(self.row) + ', ' + str(self.column) + ', ' \
-               + self.cell_type + ', ' + str(self.distance) + ', ' \
-               + self.direction
+               + self.cell_type + ', ' + str(self.distance)
 
 
     def set_distance(self, distance) -> None:
@@ -79,27 +81,6 @@ class Cell:
 
         else:
             raise TypeError("distance must be of type float") 
-
-
-    def set_direction(self, direction) -> None:
-        '''
-        set_direction allows the user to change the direction of the cell in 
-            comparison to the start cell
-        params: distnace is an int representing the distance to the exit
-        returns: None 
-        '''
-
-        if isinstance(direction, str):
-            directions = ['North', 'South', 'East', 'West', ""]
-
-            # check to make sure the direction is valid
-            if direction in directions:
-                self.direction = direction
-            else:
-                raise ValueError("direction must equal 'North', 'South', \
-                                 'East', 'West'")
-        else:
-            raise TypeError("direction must be of type str")
 
 
     def get_distance(self) -> str:
@@ -218,3 +199,4 @@ if __name__ == "__main__":
 
     test_cell.set_distance(1.0)
     print(test_cell.get_distance())
+    print(test_cell)
