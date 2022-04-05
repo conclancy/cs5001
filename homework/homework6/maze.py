@@ -4,7 +4,7 @@ Homework 6 - Maze
 clancy.co@northeastern.edu (002781018)
 03 April 2022
 
-The file calculates Maze class used for creating a maze. 
+The file calculates Maze class used for running the maze solver. 
 '''
 
 import os
@@ -185,6 +185,24 @@ class Maze:
         return maze
 
 
+    def get_all_cells(self) -> list:
+        '''
+        get_all_cells returns a flat list of all the cells in the maze
+        params: None
+        returns: a single dimension list containing all cells in the maze
+        '''
+
+        # variables
+        all_cells = []
+
+        # flatten list of cells
+        for row in self.cells:
+            for cell in row: 
+                all_cells.append(cell)
+        
+        return all_cells
+
+
     def reset_maze(self):
         '''
         reset_maze clears all of the disance and direction from all of the 
@@ -194,9 +212,8 @@ class Maze:
         '''
 
         # clear the distance and direction from all the cells in the maze
-        for row in self.cells:
-            for cell in row: 
-                cell.clear_cell()
+        for cell in self.get_all_cells():
+            cell.clear_cell()
 
 
     def set_start(self, start) -> None:
@@ -242,9 +259,12 @@ class Maze:
         # initialization 
         self.set_start(start)
 
+        # find the neighbors to the start cell and change to distance 1
+        # for 
+
         # TODO: Ask all cells if they are the neighbor of the 'S' and change to 1
         # TODO: Then ask all th squares if they are neighbors of 1, 2, 3, etc. 
-        # TODO: Somehow figure out how to identify if something is touching an exit
+        # TODO: Somehow figure out how to identify if something is touching an exit maybe during the ask_neighbor process?
 
 
 if __name__ == "__main__":
