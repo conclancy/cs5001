@@ -48,7 +48,7 @@ class Maze:
             self.file = file
 
             if file == "":
-                pass
+                self.read_maze_keyboard()
             else:
                 self.read_maze_file()
         else:
@@ -261,10 +261,15 @@ class Maze:
         # clear the maze to ensure we are calculating correctly. 
         self.reset_maze()
 
-        # initialization 
+        # declare placeholder variables for exit coordinates
+        exit_x = -1
+        exit_y = -1
+
+        # initialization of start cell cordinates
         self.set_start(start)
         start_x = self.start_cell_xy[0]
         start_y = self.start_cell_xy[1]
+
 
         # loop through remainin cells and identify distnace until an exit 
         distance = 1
@@ -283,6 +288,7 @@ class Maze:
                             if cell.cell_type in [' ', 'E']:
                                 find_neighbors.append(cell.get_xy())
 
+            # prevent infinite loops
             if len(find_neighbors) < 1:
                 break
 
@@ -293,16 +299,48 @@ class Maze:
 
                 for cell in self.get_all_cells():
 
-                    # change the 
+                    # change the neighbors distance
                     if cell.is_neighbor(n_x, n_y):
                         cell.set_distance(float(distance))
                     
                         if cell.cell_type == 'E':
                             print('exit:', cell)
+
+                            exit_x = cell.get_x()
+                            exit_y = cell.get_y()
+
                             exit_found = True
                             #TODO change this to a list???
             
             distance = distance + 1
+
+        while exit_found:
+
+            path = [] 
+            find_path = []
+            
+            # add the numbered cells to the find_path list
+            for cell in self.get_all_cells():
+                if cell.get_distance() == float(distance):
+                    find_path.append()
+            
+            # prevent infinite loops
+            if len(find_path) < 1:
+                break
+
+            for p in find_path:
+                p_x = p[0]
+                p_y = p[1]
+
+                for cell in self.get_all_cells: 
+
+                    if cell.cell_type != '*':
+                        if cell.is_neighbor(n_x, n_y):
+                            if cell.cell_type in
+
+            
+
+
 
         # TODO: Record the cell that triggered the exit
         # TODO: Find the exit's neighbor with the smallest distance
@@ -311,15 +349,19 @@ class Maze:
 
 if __name__ == "__main__":
 
-    m = Maze("maze-just-walls.txt", 13, 7)
+    # '''
+    m = Maze("maze-many exits.txt", 13, 7)
     m.find_exits([6,2])
     print(m.get_maze())
     m.reset_maze()
     print(m.get_maze())
+    # '''
 
 
     '''
-    m = Maze("", 3, 3)
-    m.read_maze_keyboard()
+    m = Maze("", 13, 7)
+    m.find_exits([6,2])
+    print(m.get_maze())
+    m.reset_maze()
     print(m.get_maze())
     '''
