@@ -266,15 +266,47 @@ class Maze:
         start_x = self.start_cell_xy[0]
         start_y = self.start_cell_xy[1]
 
-        # find the neighbors to the start cell and change to distance 1
-        for cell in self.get_all_cells():
-            if cell.is_neighbor(start_x, start_y) == 'yes':
-                cell.set_distance(1.0)
+        # loop through remainin cells and identify distnace until an exit 
+        distance = 1
+        exit_found = False 
 
+        while not exit_found: 
 
-        # TODO: Ask all cells if they are the neighbor of the 'S' and change to 1
-        # TODO: Then ask all th squares if they are neighbors of 1, 2, 3, etc. 
-        # TODO: Somehow figure out how to identify if something is touching an exit maybe during the ask_neighbor process?
+            if distance == 1: 
+                find_neighbors = [[start_x, start_y]]
+            else:
+                find_neighbors = []
+                for cell in self.get_all_cells():
+                    cell_distance = cell.get_distance()
+                    if cell_distance.isnumeric():
+                        if float(cell_distance) == distance - 1:
+                            if cell.cell_type in [' ', 'E']:
+                                find_neighbors.append(cell.get_xy())
+
+            if len(find_neighbors) < 1:
+                break
+
+            # find neighbors to the start cell and change to distance 1
+            for n in find_neighbors:
+                n_x = n[0] 
+                n_y = n[1]
+
+                for cell in self.get_all_cells():
+
+                    # change the 
+                    if cell.is_neighbor(n_x, n_y) in ['yes']:
+                        cell.set_distance(float(distance))
+                    
+                        if cell.cell_type == 'E':
+                            print('exit:', cell)
+                            exit_found = True
+                            #TODO change this to a list???
+            
+            distance = distance + 1
+
+        # TODO: Record the cell that triggered the exit
+        # TODO: Find the exit's neighbor with the smallest distance
+        # TODO: Change type (not number) to *, repeat until you get to 1
 
 
 if __name__ == "__main__":
