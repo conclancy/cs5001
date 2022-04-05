@@ -242,10 +242,14 @@ class Maze:
         # initialization 
         self.set_start(start)
 
+        # TODO: Ask all cells if they are the neighbor of the 'S' and change to 1
+        # TODO: Then ask all th squares if they are neighbors of 1, 2, 3, etc. 
+        # TODO: Somehow figure out how to identify if something is touching an exit
+
 
 if __name__ == "__main__":
 
-    m = Maze("maze-snake.txt", 13, 7)
+    m = Maze("maze-just-walls.txt", 13, 7)
     m.find_exits([6,2])
     print(m.get_maze())
     m.reset_maze()

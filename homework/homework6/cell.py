@@ -45,8 +45,10 @@ class Cell:
                 self.cell_type = cell_type
             elif cell_type == "S":
                 self.cell_type = cell_type
+            elif cell_type == "*":
+                self.cell_type = cell_type
             else:
-                raise ValueError("cell_type must be 'X', 'E', 'S', ' '")
+                raise ValueError("cell_type must be 'X', 'E', 'S', '*', ' '")
         else:
             raise TypeError("column must be of type str")
 
@@ -83,7 +85,11 @@ class Cell:
         '''
 
         if isinstance(distance, float):
-            self.distance = distance
+
+            # only set the distance for valid cells 
+            if self.cell_type == ' ' and self.distance == INFINITY:
+                self.distance = distance
+
         else:
             raise TypeError("distance must be of type float") 
 
@@ -135,7 +141,7 @@ class Cell:
         '''
 
         # only reset the valid space ' ' or start 'S' cells
-        if self.cell_type in [' ', 'S']:
+        if self.cell_type in [' ', 'S', '*']:
             self.cell_type = ' '
             self.distance = INFINITY
             self.direction = ""
@@ -152,6 +158,37 @@ class Cell:
             self.cell_type = 'S'
         
         # TODO add error handling
+
+
+    def is_neighbor(self, x, y) -> bool:
+        '''
+        is_neighbor allow the cell to tell you if it is a neightbor to the 
+            cell with input cordinates x and y.  A neighbor is defined as a
+            cell that shares an edge with the current cell. 
+        params: two ints, x and y
+        returns: bool representing whether or not the cell is a neighbor
+        '''
+
+        # North cell
+        if self.row == y - 1 and self.column == x:
+            return True
+        
+        # East cell
+        elif self.row == y and self.column == x + 1:
+            return True
+
+        # South cell
+        elif self.row == y + 1 and self.column == x:
+            return True
+
+        # West cell
+        elif self.row == y and self.column == x - 1:
+            return True
+        
+        # all other cells return False, not a neighbor
+        else:
+            return False
+
 
 if __name__ == "__main__":
     test_cell = Cell(3, 4, " ") 
