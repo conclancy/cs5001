@@ -7,7 +7,6 @@ clancy.co@northeastern.edu (002781018)
 The file contains the Maze class used for running the maze solver. 
 '''
 
-from json.encoder import INFINITY
 import os
 import sys
 from cell import Cell
@@ -20,7 +19,7 @@ class Maze:
     methods: #TODO 
     '''
 
-    def __init__(self, file, width = 0, height = 0) -> None:
+    def __init__(self, file, width = 3, height = 3) -> None:
         '''Constructor for the Maze Class'''
 
         # set the width attribute
@@ -76,6 +75,7 @@ class Maze:
         # Read all of the contents of the file
         # into a list of strings called filedata.
         filedata = file.readlines()
+        file.close()
 
         # set row count variable
         row_count = 1
@@ -347,7 +347,7 @@ if __name__ == "__main__":
 
     # '''
     m = Maze("maze-unreachable.txt", 13, 7)
-    m.find_exits([2,7])
+    m.find_exits([4,7])
     print(m.get_maze())
     m.reset_maze()
     print(m.get_maze())
