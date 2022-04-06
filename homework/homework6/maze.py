@@ -70,7 +70,11 @@ class Maze:
         '''
 
         # read in the requested file
-        file = open(os.path.join(sys.path[0], self.file), 'r')
+        try:
+            file = open(os.path.join(sys.path[0], self.file), 'r')
+        except FileNotFoundError:
+            e = "Invalid path, please retype and try again"
+            raise FileNotFoundError(e)
 
         # Read all of the contents of the file
         # into a list of strings called filedata.
@@ -334,7 +338,6 @@ class Maze:
                             path_y = cell.get_y()
 
                     elif cell.cell_type == 'S':
-                        print('start:', cell)
                         exit_found == False
 
             distance = distance - 1
@@ -347,7 +350,8 @@ if __name__ == "__main__":
 
     # '''
     m = Maze("maze-unreachable.txt", 13, 7)
-    m.find_exits([4,7])
+    m.find_exits([2,7])
+    # m.set_start([4, 7])
     print(m.get_maze())
     m.reset_maze()
     print(m.get_maze())
