@@ -58,16 +58,55 @@ def main() -> None:
             # variables
             width = 0
             height = 0
-            width_promt = 'Enter maze character width between 3 and 120: '
+            width_prompt = 'Enter maze character width between 3 and 120: '
+            height_prompt = 'Enter maze character height between 3 and 40: '
 
-            while width < 3: 
-                raw_width = input(width_promt)
+            # get width input from user
+            while width < 3 or width > 120: 
+                raw_width = input(width_prompt)
                 if raw_width.isnumeric():
                     width = int(raw_width)
-            
-            height = int(input('Enter maze character height: '))
+
+            # get height input from user
+            while height < 3 or height > 40:
+                raw_height = int(input(height_prompt))
+                if raw_height.isnumeric():
+                    height = int(raw_height)
+                    
             maze = Maze("", width, height)
             print(maze.get_maze())
+        
+        elif command == '3':
+            try:
+                print("Coordinates start at [0,0] in the top left corner")
+
+                # variables
+                start_x = 0
+                start_y = 0  
+                row = maze.height - 1
+                col = maze.width - 1
+                x_prompt = f'Enter start x (row) coordinate between 2 - {row}: '
+                y_prompt = f'Enter start y (column) cordinate between 2 - {col}: '
+
+                # get x coordinate from the user
+                while start_x < 2 or start_x > row:
+                    raw_x = input(x_prompt)
+                    if raw_x.isnumeric():
+                        start_x = int(raw_x)
+                
+                # get y coordinate from the user
+                while start_y < 2 or start_y > col:
+                    raw_y = input(y_prompt)
+                    if raw_y.isnumeric():
+                        start_y = int(raw_y)
+                
+                maze.find_exits([start_x, start_y])
+                print(maze.get_maze())
+            
+            except AttributeError:
+                print("Enter a maze using options [1] or [2] first")
+            except ValueError:
+                print("Invalid start location.  Please try again.")
 
 if __name__ == "__main__":
     main()
