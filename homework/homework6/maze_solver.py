@@ -11,10 +11,14 @@ start point to the nearest exit.
 '''
 
 from maze import Maze
-import os
 
 
 def main() -> None:
+    '''
+    This function creaetes a maze and solves it based on given start location
+    params: None
+    returns: Void
+    '''
 
     # initialize variables
     maze = None
@@ -29,6 +33,7 @@ def main() -> None:
            '    [2] - Enter a new maze manually with your keyboard\n' + \
            '    [3] - Choose a start location for your maze\n' + \
            '    [4] - Print the maze to see current configuration\n' + \
+           '    [5] - Reset and clear maze to original configuration\n' + \
            '    [0] - Exit the program '
     
         print(menu)
@@ -50,32 +55,38 @@ def main() -> None:
             except FileNotFoundError:
                 print("The file path you entered was not found :(")
                 print("Please select another option")
+            except:
+                print("Something went wrong, please try again")
 
         # allow the user to type in the design for a new maze
         elif command == '2':
-            print("Minimum maze size is 3 x 3 characters")
+            try:
+                print("Minimum maze size is 3 x 3 characters")
 
-            # variables
-            width = 0
-            height = 0
-            width_prompt = 'Enter maze character width between 3 and 120: '
-            height_prompt = 'Enter maze character height between 3 and 40: '
+                # variables
+                width = 0
+                height = 0
+                width_prompt = 'Enter maze character width between 3 and 120: '
+                height_prompt = 'Enter maze character height between 3 and 40: '
 
-            # get width input from user
-            while width < 3 or width > 120: 
-                raw_width = input(width_prompt)
-                if raw_width.isnumeric():
-                    width = int(raw_width)
+                # get width input from user
+                while width < 3 or width > 120: 
+                    raw_width = input(width_prompt)
+                    if raw_width.isnumeric():
+                        width = int(raw_width)
 
-            # get height input from user
-            while height < 3 or height > 40:
-                raw_height = int(input(height_prompt))
-                if raw_height.isnumeric():
-                    height = int(raw_height)
-                    
-            maze = Maze("", width, height)
-            print(maze.get_maze())
-        
+                # get height input from user
+                while height < 3 or height > 40:
+                    raw_height = int(input(height_prompt))
+                    if raw_height.isnumeric():
+                        height = int(raw_height)
+                        
+                maze = Maze("", width, height)
+                print(maze.get_maze())
+            except:
+                print("Something went wrong, please try again")
+
+        # solves the maze for the user based on an input start location
         elif command == '3':
             try:
                 print("Coordinates start at [0,0] in the top left corner")
@@ -107,6 +118,28 @@ def main() -> None:
                 print("Enter a maze using options [1] or [2] first")
             except ValueError:
                 print("Invalid start location.  Please try again.")
+            except:
+                print("Something went wrong, please try again")
+
+        # allows the user to reprint the maze if they need to see the current state
+        elif command == '4':
+            try:
+                print(maze.get_maze())
+            except AttributeError:
+                print("Enter a maze using options [1] or [2] first")
+            except:
+                print("Something went wrong, please try again")
+
+        # allows the user to clear the maze to original configuration
+        elif command == '5':
+            try:
+                print(maze.reset_maze())
+                print('The maze has been reset')
+            except AttributeError:
+                print("Enter a maze using options [1] or [2] first")
+            except:
+                print("Something went wrong, please try again")
+
 
 if __name__ == "__main__":
     main()

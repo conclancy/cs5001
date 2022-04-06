@@ -15,7 +15,15 @@ from cell import Cell
 class Maze:
     '''
     Maze class for creating your maze object
-    attributes: width, height
+    attributes: file, width, height
+    methods:
+        - read_maze_file = read maze from input file
+        - read_maze_keyboard = manually enter the maze using keyboard
+        - get_maze = return the maze as a string
+        - get_all_cells = returns a flat list of all the cells
+        - reset_maze = clears all the cells within the map
+        - set_start = change a cell in the maze to the start location
+        - find_exit = finds an path out of the maze and return maze string
     '''
 
     def __init__(self, file, width = 3, height = 3) -> None:
@@ -64,8 +72,8 @@ class Maze:
     def read_maze_file(self) -> None:
         '''
         read_maze_file reads a maze file and sets the cells list attribute
-        params self
-        returns nothing
+        params none
+        returns void
         '''
 
         # read in the requested file
@@ -210,12 +218,12 @@ class Maze:
         return all_cells
 
 
-    def reset_maze(self):
+    def reset_maze(self) -> None:
         '''
         reset_maze clears all of the disance and direction from all of the 
             cells in the maze
         params: None
-        returns: None
+        returns: void
         '''
 
         # clear the distance and direction from all the cells in the maze
@@ -228,7 +236,7 @@ class Maze:
         set_start sets the start attribute for the maze so that we know where
             to begin parsing the maze
         params: None
-        returns: None
+        returns: void
         '''
 
         if len(start) != 2:
@@ -252,13 +260,13 @@ class Maze:
         self.start_cell_xy = self.cells[start_x][start_y].make_start()
 
 
-    def find_exits(self, start):   
+    def find_exits(self, start) -> None:   
         '''
         find_exits identifies all of the exits on cells that are categorized 
             as exits on the board.
         params: start is a list containing two elements with the x and y 
             cordinates of the start location.
-        returns:  #TODO -> Type
+        returns: void
         '''
 
         # clear the maze to ensure we are calculating correctly. 

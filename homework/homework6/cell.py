@@ -14,8 +14,17 @@ from json.encoder import INFINITY
 class Cell:
     '''
     The cell class represents a cell within the maze.
-    attributes: row, column, cell_type
+    attributes: row, column, cell_type, distance
     methods: 
+        - set_distance = set the cell's distance from the start cell
+        - get_distance = returns the start distance or type of the cell
+        - clear_distance = clear distance variable (set to INFINITY)
+        - clear_cell = reset cell type to ' ' after it was set to 'S' or '*'
+        - get_xy = return the x and y coordinates for the cell
+        - get_x = return just the x coordinate for the cell 
+        - get_y = return just the y coordinate for the cell
+        - make_start = make this ' ' cell the start cell for the maze
+        - is_neighbor = test if cell is neighbor to cell with input coordinate
     '''
 
     def __init__(self, row, column, cell_type, distance = INFINITY) -> None:
