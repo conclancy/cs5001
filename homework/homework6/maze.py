@@ -16,7 +16,6 @@ class Maze:
     '''
     Maze class for creating your maze object
     attributes: width, height
-    methods: #TODO 
     '''
 
     def __init__(self, file, width = 3, height = 3) -> None:

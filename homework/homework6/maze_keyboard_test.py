@@ -47,7 +47,7 @@ class KeyboardTest(unittest.TestCase):
         XXEXX
 
         '''
-        
+
         maze = Maze("", 5, 4)
         expected = 'XXXXX\n' + \
                    'XS* X\n' + \
@@ -57,6 +57,7 @@ class KeyboardTest(unittest.TestCase):
         maze.find_exits([2,2]) 
 
         self.assertEqual(maze.get_maze(), expected)
+
 
 if __name__ == "__main__":
     unittest.main()
