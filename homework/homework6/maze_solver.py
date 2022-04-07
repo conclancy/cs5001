@@ -6,8 +6,8 @@ clancy.co@northeastern.edu (002781018)
 
 The file contains the driver program for this module.
 This file will promot the user to create or load a maze into the program.
-The program will then solve the maze by plotting the optimal route from a defined
-start point to the nearest exit.
+The program will then solve the maze by plotting the optimal route from a 
+defined start point to the nearest exit.
 '''
 
 from maze import Maze
@@ -35,7 +35,7 @@ def main() -> None:
            '    [4] - Print the maze to see current configuration\n' + \
            '    [5] - Reset and clear maze to original configuration\n' + \
            '    [0] - Exit the program '
-    
+
         print(menu)
 
         command = input("Please choose an option from the menu above: ")
@@ -55,36 +55,32 @@ def main() -> None:
             except FileNotFoundError:
                 print("The file path you entered was not found :(")
                 print("Please select another option")
-            except:
-                print("Something went wrong, please try again")
 
         # allow the user to type in the design for a new maze
         elif command == '2':
-            try:
-                print("Minimum maze size is 3 x 3 characters")
 
-                # variables
-                width = 0
-                height = 0
-                width_prompt = 'Enter maze character width between 3 and 120: '
-                height_prompt = 'Enter maze character height between 3 and 40: '
+            print("Minimum maze size is 3 x 3 characters")
 
-                # get width input from user
-                while width < 3 or width > 120: 
-                    raw_width = input(width_prompt)
-                    if raw_width.isnumeric():
-                        width = int(raw_width)
+            # variables
+            width = 0
+            height = 0
+            width_prompt = 'Enter maze width between 3 and 120: '
+            height_prompt = 'Enter maze height between 3 and 40: '
 
-                # get height input from user
-                while height < 3 or height > 40:
-                    raw_height = int(input(height_prompt))
-                    if raw_height.isnumeric():
-                        height = int(raw_height)
-                        
-                maze = Maze("", width, height)
-                print(maze.get_maze())
-            except:
-                print("Something went wrong, please try again")
+            # get width input from user
+            while width < 3 or width > 120: 
+                raw_width = input(width_prompt)
+                if raw_width.isnumeric():
+                    width = int(raw_width)
+
+            # get height input from user
+            while height < 3 or height > 40:
+                raw_height = int(input(height_prompt))
+                if raw_height.isnumeric():
+                    height = int(raw_height)
+
+            maze = Maze("", width, height)
+            print(maze.get_maze())
 
         # solves the maze for the user based on an input start location
         elif command == '3':
@@ -96,39 +92,35 @@ def main() -> None:
                 start_y = 0  
                 row = maze.height - 1
                 col = maze.width - 1
-                x_prompt = f'Enter start x (row) coordinate between 2 - {row}: '
-                y_prompt = f'Enter start y (column) cordinate between 2 - {col}: '
+                x_prompt = f'Enter start x coordinate between 2 - {row}: '
+                y_prompt = f'Enter start y cordinate between 2 - {col}: '
 
                 # get x coordinate from the user
                 while start_x < 2 or start_x > row:
                     raw_x = input(x_prompt)
                     if raw_x.isnumeric():
                         start_x = int(raw_x)
-                
+
                 # get y coordinate from the user
                 while start_y < 2 or start_y > col:
                     raw_y = input(y_prompt)
                     if raw_y.isnumeric():
                         start_y = int(raw_y)
-                
+
                 maze.find_exits([start_x, start_y])
                 print(maze.get_maze())
-            
+
             except AttributeError:
                 print("Enter a maze using options [1] or [2] first")
             except ValueError:
                 print("Invalid start location.  Please try again.")
-            except:
-                print("Something went wrong, please try again")
 
-        # allows the user to reprint the maze if they need to see the current state
+        # allows the user to reprint the maze to see the current state
         elif command == '4':
             try:
                 print(maze.get_maze())
             except AttributeError:
                 print("Enter a maze using options [1] or [2] first")
-            except:
-                print("Something went wrong, please try again")
 
         # allows the user to clear the maze to original configuration
         elif command == '5':
@@ -137,8 +129,6 @@ def main() -> None:
                 print('The maze has been reset')
             except AttributeError:
                 print("Enter a maze using options [1] or [2] first")
-            except:
-                print("Something went wrong, please try again")
 
 
 if __name__ == "__main__":
