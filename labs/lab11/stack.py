@@ -54,6 +54,15 @@ class Stack:
         for e in range(len(self.data) -1, -1, -1):
             print(self.data[e])
 
+    def clear(self) -> None:
+        '''
+        clear removes all items from the stack
+        params:
+            self -- the current object
+        returns:
+            void
+        '''
+        self.data = list()
 
 if __name__ == "__main__":
     test_stack = Stack()
@@ -76,4 +85,15 @@ if __name__ == "__main__":
 
     test_stack.pop()
     test_stack.dump()
+
+    test_stack.push(1)
+    test_stack.push(2)
+    test_stack.push(3)
+    test_stack.push("test")
+
+    test_stack.dump()
+
+    test_stack.clear
+
+    print("current stack:", test_stack.dump())
 

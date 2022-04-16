@@ -52,6 +52,17 @@ class Queue:
 
         # print the data list for debugging
         print(self.data)
+    
+    def clear(self) -> None:
+        '''
+        clear removes all items from the queue
+        params:
+            self -- the current object
+        returns:
+            void
+        '''
+        self.data = list()
+        
 
 if __name__ == "__main__":
     test_stack = Queue()
@@ -73,4 +84,15 @@ if __name__ == "__main__":
     test_stack.dump()
 
     test_stack.dequeue()
+    test_stack.dump()
+
+    test_stack.enqueue(1)
+    test_stack.enqueue(2)
+    test_stack.enqueue(3)
+    test_stack.enqueue("test")
+
+    test_stack.dump()
+
+    test_stack.clear()
+
     test_stack.dump()
