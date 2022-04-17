@@ -80,6 +80,8 @@ class ConnectFour:
             # logic for all rows except the bottom row
             # if the row below is already filled, and the above row is not
             # filled, set the above row to the current piece. 
+
+            #todo: this logic does not appear to be working right now
             else:
                 above_row = self.hold_board.pop() 
                 below_row = self.board.pop()
