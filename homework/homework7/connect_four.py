@@ -65,29 +65,52 @@ class ConnectFour:
             raise TypeError("column must be of type int")
 
         # logic for placing the piece 
-        for r in range(self.rows):
+        for r in range(self.rows + 1):
+            print(r)
 
             # logic for first row; you need at least two rows to run process
             if r == 0:
-                self.hold_board.push(self.board.pop())
+                first_row = self.board.pop()
+                print("first row is number:", first_row[0])
+                self.hold_board.push(first_row)
+                
 
             # logic for the bottom row of the board
-            elif r == self.rows - 1:
-                row = self.board.pop()
-                row[column] = piece
-                self.hold_board.push(row)
+
+            elif r == self.rows:
+                print("trigger 2nd last logic")
+                below_row = self.hold_board.pop()
+                above_row = self.hold_board.pop() 
+
+                print("above row is:", above_row[0], "below row is:", below_row[0])
+                print("above column value:", above_row[column], "below column is:", below_row[column])
+
+                # logic for landing a piece above another piece
+                if below_row[column] == ' ':
+                    below_row[column] = piece
+                else:
+                    above_row[column] = piece
+
+                self.hold_board.push(above_row)
+                self.hold_board.push(below_row)
 
             # logic for all rows except the bottom row
             # if the row below is already filled, and the above row is not
             # filled, set the above row to the current piece. 
 
             #todo: this logic does not appear to be working right now
+            # We never get above = 1 and below = 0 
             else:
                 above_row = self.hold_board.pop() 
                 below_row = self.board.pop()
 
+                print("above row is:", above_row[0], "below row is:", below_row[0])
+                print("above column value:", above_row[column], "below column is:", below_row[column])
+
+
                 # logic for landing a piece above another piece
                 if below_row[column] != ' ' and above_row[column] == ' ':
+                    print("trigger logic")
                     above_row[column] = piece
 
                 # push both of the rows to the holding board
@@ -200,6 +223,8 @@ if __name__ == "__main__":
     board = ConnectFour()
     print(board)
     board.add_piece(4)
+    board.add_piece(4)
     board.add_piece(3)
+    board.set_player(0)
     board.add_piece(3)
     print(board)
