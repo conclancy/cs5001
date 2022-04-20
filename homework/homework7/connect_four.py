@@ -198,7 +198,7 @@ class ConnectFour:
             row = self.hold_board.pop()
             self.board.push(row)
 
-    def set_player(self, turn) -> None:
+    def next_player(self) -> None:
         '''
         sets the player variable to alternate turns
         params:
@@ -208,23 +208,16 @@ class ConnectFour:
             void
         '''
 
-        if isinstance(turn, int):
-            if turn == 0:
-                self.player_one = False
-            elif turn == 1: 
-                self.player_one = True
-            else:
-                err = "turn must be a 1 for player 1 or 0 for player 2"
-                raise ValueError(err)
-        else:
-            raise TypeError("turn must be of type int")
+        self.player_one = not self.player_one
+
 
 if __name__ == "__main__":
     board = ConnectFour()
     print(board)
     board.add_piece(4)
+    board.next_player()
     board.add_piece(4)
     board.add_piece(3)
-    board.set_player(0)
+    board.next_player()
     board.add_piece(3)
     print(board)
