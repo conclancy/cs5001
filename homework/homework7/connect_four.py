@@ -11,6 +11,7 @@ a connect four board.
 from queue import Queue
 from stack import Stack
 
+
 class ConnectFour:
     '''This class creates a gameboard for playing connect four'''
 
@@ -19,22 +20,62 @@ class ConnectFour:
         self.rows = 6
         self.columns = 7
         self.player_one = True
-        self.board = Stack()
-        self.hold_board = Stack()
+        self.victory_conditions = [['O', 'O', 'O', 'O'], ['X', 'X', 'X', 'X']]
+        self.board_stack = Stack()
+        self.board = []
 
         # create 6 rows with 7 columns of spaces
         for r in range(self.rows):
             row = []
             for c in range(self.columns):
-                if c == 0: 
-                    # todo
-                    row.append(str(r))
-                    # row.append(' ')
-                else:
-                    row.append(' ')
+                row.append(' ')
 
             # enqueue the row to the board
-            self.board.push(row)
+            self.board.append(row)
+
+    def get_row(self, row) -> list:
+        '''
+        get_row returns a row from the board
+        params:
+            self -- the current object
+            row -- the int index of the row
+        returns
+            list representing the row
+        '''
+        return self.board[row]
+
+    def get_column(self, column) -> list:
+        '''
+        '''
+        values = []
+
+        for row in self.board:
+            values.append(row[column])
+
+        return values
+
+    def get_diagonals(self) -> list:
+        '''
+        '''
+        diagonals = []
+
+        for d in range(self.rows + self.columns - 1):
+            diagonals.append([])
+            max_val = max(d - self.rows + 1, 0)
+            min_val = min(d + 1, self.rows)
+            for diagonal in range(max_val, min_val):
+                cell = self.board[self.rows - d + diagonal - 1][diagonal]
+                diagonals[d].append(cell)
+
+        for d in range(self.rows + self.columns - 1):
+            diagonals.append([])
+            max_val = max(d - self.rows + 1, 0)
+            min_val = min(d + 1, self.rows)
+            for diagonal in range(max_val, min_val):
+                cell = self.board[d - diagonal][diagonal]
+                diagonals[d].append(cell)
+
+        return diagonals
 
     def add_piece(self, column) -> None:
         '''
@@ -45,81 +86,45 @@ class ConnectFour:
         returns:
             void
         '''
+        print(column)
 
-        # ensure valid input and set the piece type
-        if isinstance(column, int):
-            if column > 0 and column <= self.columns:
-                if self.player_one:
-                    piece = 'X'
-                else:
-                    piece = 'O'
-                
-                # decrement the column by one so it can be used to index lists
-                column = column - 1 
+        if not self.is_game_over():
+            # ensure valid input and set the piece type
+            if isinstance(column, int):
+                if column >= 0 and column < self.columns:
+                    if self.player_one:
+                        piece = 'X'
+                    else:
+                        piece = 'O'
 
+                else: 
+                    c = str(self.columns)
+                    err = "column must be greater than 0 & less than " + c
+                    raise ValueError(err)
             else: 
-                c = self.columns + 1
-                err = "column must be greater than 0 and less than " + str(c)
+                err = "column must be of type int"
                 raise ValueError(err)
-        else: 
-            raise TypeError("column must be of type int")
 
-        # logic for placing the piece 
-        for r in range(self.rows + 1):
-            print(r)
+            # column is full; invalid move
+            if ' ' not in self.get_column(column):
+                err = f"column full {self.get_column(column)}"
+                raise ValueError(err)
 
-            # logic for first row; you need at least two rows to run process
-            if r == 0:
-                first_row = self.board.pop()
-                print("first row is number:", first_row[0])
-                self.hold_board.push(first_row)
-                
+            # save current board state for undo
+            self.board_stack.push(self.board)
 
-            # logic for the bottom row of the board
+            # identify row to play
+            row = self.rows - 1
+            while self.board[row][column] != ' ':
+                row -= 1
 
-            elif r == self.rows:
-                print("trigger 2nd last logic")
-                below_row = self.hold_board.pop()
-                above_row = self.hold_board.pop() 
+            # set the cell to piece
+            self.board[row][column] = piece
+            self.next_player()
 
-                print("above row is:", above_row[0], "below row is:", below_row[0])
-                print("above column value:", above_row[column], "below column is:", below_row[column])
+        else:
+            raise ValueError("The game is over")
 
-                # logic for landing a piece above another piece
-                if below_row[column] == ' ':
-                    below_row[column] = piece
-                else:
-                    above_row[column] = piece
-
-                self.hold_board.push(above_row)
-                self.hold_board.push(below_row)
-
-            # logic for all rows except the bottom row
-            # if the row below is already filled, and the above row is not
-            # filled, set the above row to the current piece. 
-
-            #todo: this logic does not appear to be working right now
-            # We never get above = 1 and below = 0 
-            else:
-                above_row = self.hold_board.pop() 
-                below_row = self.board.pop()
-
-                print("above row is:", above_row[0], "below row is:", below_row[0])
-                print("above column value:", above_row[column], "below column is:", below_row[column])
-
-
-                # logic for landing a piece above another piece
-                if below_row[column] != ' ' and above_row[column] == ' ':
-                    print("trigger logic")
-                    above_row[column] = piece
-
-                # push both of the rows to the holding board
-                self.hold_board.push(above_row)
-                self.hold_board.push(below_row)
-
-        # transfer the hold board back to main board stack
-        self.transfer_hold_to_board()
-    
     def is_game_over(self) -> bool:
         '''
         returns true when a player connects four pieces in any direction
@@ -128,11 +133,28 @@ class ConnectFour:
         returns:
             bool -- true when the game is over, otherwise false
         '''
-        # todo row
-        # todo column
-        # todo vertical 
 
-    def get_winner(self) -> str:
+        # row victory conditions 
+        for row in range(self.rows):
+            for x in range(self.columns - 3):
+                if self.get_row(row)[x:x + 4] in self.victory_conditions:
+                    return True
+
+        # column victory conditions
+        for col in range(self.columns):
+            for x in range(self.rows - 3):
+                if self.get_column(col)[x:x + 4] in self.victory_conditions:
+                    return True
+
+        # diagonal visctory conditions
+        for d in self.get_diagonals():
+            for x in range(len(d)):
+                if d[x:x + 4] in self.victory_conditions:
+                    return True
+
+        return False
+
+    def get_winner(self) -> object:
         '''
         returns the name of the player who wins the game
         params:
@@ -140,7 +162,20 @@ class ConnectFour:
         returns
             str -- the name of the player who won
         '''
-        #todo
+
+        # logic for if the game is over
+        if self.is_game_over():
+
+            if self.player_one:
+                peice = 'O'
+            else:
+                peice = 'X'
+
+            return peice
+
+        # play continues
+        else:
+            return None
 
     def __str__(self) -> str:
         '''
@@ -156,10 +191,7 @@ class ConnectFour:
         visual = ''
 
         # iterate through each row in the board
-        for r in range(self.rows):
-
-            # dequeue the row from the board
-            row = self.board.pop()
+        for row in self.board:
 
             # instantiate the row string
             row_str = ''
@@ -178,27 +210,7 @@ class ConnectFour:
             # add a seperator row of dashes seperating board rows
             visual += (15 * '-') + '\n'
 
-            # requeue the row back to the board object
-            self.hold_board.push(row)
-
-        # transfer the temp board back to the main board to maintain order
-        self.transfer_hold_to_board()
-        
         return visual
-
-    def transfer_hold_to_board(self) -> None:
-        '''
-        transfers the temporary board back to the main board
-        params:
-            self -- the current object
-        returns:
-            void
-        '''
-
-        # transfer the rwos from the temproary board back to main board
-        for r in range(self.rows):
-            row = self.hold_board.pop()
-            self.board.push(row)
 
     def next_player(self) -> None:
         '''
@@ -211,14 +223,40 @@ class ConnectFour:
 
         self.player_one = not self.player_one
 
+    def undo(self) -> None:
+        '''
+        undos the previous move
+        params: 
+            self -- the current object
+        returns:
+            void
+        '''
+
+        print("undo")
+        print(self.board)
+        self.board = self.board_stack.pop()
+        print(self.board)
+
 
 if __name__ == "__main__":
     board = ConnectFour()
+    print(board.is_game_over())
     print(board)
+    board.add_piece(1)
+    board.next_player()
+    board.add_piece(2)
+    board.next_player()
+    board.add_piece(2)
+    board.add_piece(3)
+    board.add_piece(3)
+    board.add_piece(3)
+    board.next_player()
     board.add_piece(4)
     board.next_player()
     board.add_piece(4)
-    board.add_piece(3)
-    board.next_player()
-    board.add_piece(3)
+    board.add_piece(4)
+    board.undo()
+    board.add_piece(4)
+    print(board.is_game_over())
     print(board)
+    print(board.get_winner())
