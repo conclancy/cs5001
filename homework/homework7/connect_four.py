@@ -8,7 +8,6 @@ The file contains the connect_four class used to create and update
 a connect four board.
 '''
 
-from multiprocessing.sharedctypes import Value
 from queue import Queue
 from stack import Stack
 
@@ -87,7 +86,6 @@ class ConnectFour:
         returns:
             void
         '''
-        print(column)
 
         if not self.is_game_over():
             # ensure valid input and set the piece type
