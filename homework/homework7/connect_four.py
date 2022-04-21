@@ -203,7 +203,6 @@ class ConnectFour:
         sets the player variable to alternate turns
         params:
             self -- the current object
-            turn -- 1 for player 1 and 0 for player 2
         returns:
             void
         '''
