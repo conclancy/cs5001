@@ -8,6 +8,7 @@ The file contains the connect_four class used to create and update
 a connect four board.
 '''
 
+from multiprocessing.sharedctypes import Value
 from queue import Queue
 from stack import Stack
 
@@ -111,7 +112,7 @@ class ConnectFour:
                 raise ValueError(err)
 
             # save current board state for undo
-            self.board_stack.push(self.board)
+            self.save_board()
 
             # identify row to play
             row = self.rows - 1
@@ -223,6 +224,19 @@ class ConnectFour:
 
         self.player_one = not self.player_one
 
+    def save_board(self) -> None:
+        '''
+        '''
+        save = []
+
+        for r in self.board:
+            row = []
+            for e in r: 
+                row.append(e)
+            save.append(row)
+
+        self.board_stack.push(save)
+
     def undo(self) -> None:
         '''
         undos the previous move
@@ -232,10 +246,18 @@ class ConnectFour:
             void
         '''
 
-        print("undo")
-        print(self.board)
-        self.board = self.board_stack.pop()
-        print(self.board)
+        try:
+            previous = self.board_stack.pop()
+        except IndexError:
+            raise ValueError("Nothing to undo")
+
+        self.board = []
+
+        print("Board after reset:", self.board)
+        print(previous)
+
+        for row in previous:
+            self.board.append(row)
 
 
 if __name__ == "__main__":
@@ -255,8 +277,9 @@ if __name__ == "__main__":
     board.next_player()
     board.add_piece(4)
     board.add_piece(4)
-    board.undo()
     board.add_piece(4)
+    print(board)
+    board.undo()
     print(board.is_game_over())
     print(board)
     print(board.get_winner())
