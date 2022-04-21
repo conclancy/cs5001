@@ -128,7 +128,9 @@ class ConnectFour:
         returns:
             bool -- true when the game is over, otherwise false
         '''
-        #todo
+        # todo row
+        # todo column
+        # todo vertical 
 
     def get_winner(self) -> str:
         '''
