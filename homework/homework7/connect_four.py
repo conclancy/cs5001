@@ -251,9 +251,6 @@ class ConnectFour:
 
         self.board = []
 
-        print("Board after reset:", self.board)
-        print(previous)
-
         for row in previous:
             self.board.append(row)
 
