@@ -1,10 +1,11 @@
 ''' 
 CS5002 - Prof. Rachlin
-Extra Credit Project
+Sprint 2022
+Semester Project
 clancy.co@northeastern.edu (002781018)
-24 APR 22 
 
-# TODO
+The Fibonacci class can be used to generate a list of 'n' Fibonacci numbers
+and display the associated Fibonacci spiral. 
 '''
 
 from math import pi
@@ -18,8 +19,14 @@ class Fibonacci():
     fibonacci spiral
     attributes:
         digit -- the nth digit in the Fibonacci sequence
+        factor -- how big the desired diagram should be 
+        square_color -- the color of the square borders; grey by default
+        pen_color -- the color of the spiral; red by default 
     methods:
         get_fibonacci -- get the nth Fibonacci number recursively
+        draw_squares -- draw the square borders in square_color
+        draw_spiral -- draw the spiral in pen_color
+        visual -- draws both the squares and spiral
     '''
 
     def __init__(self, digit, factor = 1, square_color = 'grey', pen_color = 'red'):
@@ -59,11 +66,10 @@ class Fibonacci():
         get_fibonacci returns the next number in the fibonacci sequence 
         using recursion.
         params:
+            self - the current object
             number - the desired digit in the fibonacci sequence
         returns:
-            the next value in the fibonacci sequence 
-        return type:
-            int
+            the next int value in the fibonacci sequence 
         '''
 
         # base cases
@@ -75,8 +81,13 @@ class Fibonacci():
             n = self.get_fibonacci(number - 1) + self.get_fibonacci(number - 2)
             return n
 
-    def draw_squares(self):
+    def draw_squares(self) -> None:
         '''
+        draw_square uses the turtle object to draw the square borders 
+        params:
+            self - the current object
+        returns:
+            void
         '''
 
         # set the boarder color for the drawing
@@ -121,8 +132,13 @@ class Fibonacci():
         self.turtle.forward(self.fibonacci_sequence[-3] * self.factor)
 
     
-    def draw_spiral(self):
+    def draw_spiral(self) -> None:
         '''
+        draw_spiral uses the turtle object to curve within the circles 
+        params:
+            self - the current object
+        returns:
+            void
         '''
 
         # reset the turtle to the starting position
@@ -137,26 +153,45 @@ class Fibonacci():
         self.turtle.left(90)
         for i in range(1, self.digit):
 
-            # set variables 
-            previous = self.fibonacci_sequence[i -1]
+            # set current value for drawing the curve
             current = self.fibonacci_sequence[i]
 
-            #
+            # caluate the required forward distance 'unit'
             forward = pi * current * self.factor / 2
             forward /= 90
 
+            # for each degree move one 'unit' forward
             for d in range(90):
                 self.turtle.forward(forward)
                 self.turtle.left(1)
 
 
-    def visual(self):
+    def visual(self) -> None:
+        '''
+        visual calls the draw_squares and draw_spiral functions to create
+        the complete Fibonacci sequence spiral drawing. 
+        params:
+            self - the current object
+        returns:
+            void
+        '''
+
+        # draw objects for the visual
         self.draw_squares()
         self.draw_spiral()
+
+        # pause so the user can admire their art work
         sleep(10)
 
 
 if __name__ == '__main__':
+    '''Driver for the Fibonacci'''
+
+    # instantiate a Fibonacci object
     test = Fibonacci(15, pen_color='purple')
+
+    # print the Fibonacci sequence
     print(test.fibonacci_sequence)
+
+    # draw and display the Fibonacci curve
     test.visual()
