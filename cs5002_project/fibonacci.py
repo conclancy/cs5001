@@ -187,11 +187,14 @@ class Fibonacci():
 if __name__ == '__main__':
     '''Driver for the Fibonacci'''
 
+    size = int(input("Enter index of the desired fibonacci number: "))
+    color = input("Enter the desired spiral color: ")
+
     # instantiate a Fibonacci object
-    test = Fibonacci(15, pen_color='purple')
+    fibonacci = Fibonacci(size, pen_color=color)
 
     # print the Fibonacci sequence
-    print(test.fibonacci_sequence)
+    print(fibonacci.fibonacci_sequence)
 
     # draw and display the Fibonacci curve
-    test.visual()
+    fibonacci.visual()
