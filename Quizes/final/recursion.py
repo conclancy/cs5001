@@ -54,6 +54,10 @@ def list_of_strings_recursive(number_of_strings) -> list:
     # variables
     alphabet = "abcdefghijklmnopqrstuvwxyz"
 
+    # check input value is an int
+    if not isinstance(number_of_strings, int):
+        raise TypeError("number_of_strings must be of type int")
+
     # recursive logic for list
     if number_of_strings == 1:
         list_of_strings = []
