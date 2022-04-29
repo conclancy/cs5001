@@ -8,6 +8,9 @@ clancy.co@northeastern.edu (002781018)
 '''
 
 
+from multiprocessing.sharedctypes import Value
+
+
 class Gradebook:
     '''
     A Gradebook is an object that contains all the information for a
@@ -102,30 +105,37 @@ class Gradebook:
         :return:a dictionary with a key of a student's name and a value of the letter grade (str)
         '''
 
-
-
-    #the following methods are assumed to exist, but do not need to be tested
-    #you can rely on them in your tests
-
+    # the following methods are assumed to exist, but do not need to be tested
+    # you can rely on them in your tests
     def add_grade(self, assignment_grades) -> None:
         '''
-        This takes a dictionary as input. The dictionary has student names as a key
-        and the points for an assignment as the value.
-        This methods will add the grade for each student to the dictionary
-        in the class that has student as key and the value is the list of all the grades
-        so far.
-        So if this class attribute that contains the grades has 2 grades for each student,
-        after running this method there would be 3 grades for each student.
-        :param assignment_grades: a dictionary that has student names as keys, and their grade on
-            a single assignment as the values
+        This takes a dictionary as input. The dictionary has student names as
+        a key and the points for an assignment as the value. This methods will
+        add the grade for each student to the dictionary in the class that has
+        student as key and the value is the list of all the grades so far.So
+        if this class attribute that contains the grades has 2 grades for each
+        student, after running this method there would be 3 grades for each 
+        student.
+        :param assignment_grades: a dictionary that has student names as keys,
+            and their grade on a single assignment as the values
         '''
 
-        for name in assignment_grades.keys():
-            grades = assignment_grades[name]
+        # check to ensure assignment_grades is a dict
+        if not isinstance(assignment_grades, dict):
+            raise ValueError("assignment_grades must be of type dict")
 
-            while len(grades) > 0:
-                grade = grades.pop()
+        # for each students name in the assigned_grades dict 
+        for name in assignment_grades.keys():
+
+            # test to make sure the value is numeric.  We will use floats for
+            # the points values because they will eventually be averaged 
+            # resulting in a float and it allows us to input ints or floats.
+            try:
+                grade = float(assignment_grades[name])
                 self.student_dict[name].append(grade)
+            except TypeError:
+                raise TypeError("grades should be numeric")
+            
 
 
     def get_grades(self) -> dict:
@@ -200,14 +210,24 @@ if __name__ == "__main__":
     students = ['Connor', 'John', 'Bob', 'Sue']
     gradebook = Gradebook('cs5001', 2022, 'Fall', 'Wilder', students)
 
-    # add grades
-    grades = {
-        'Connor': [95, 95],
-        'John': [100, 80],
-        'Bob': [80, 79],
-        'Sue': [0, 100]
+    # add grades for assignment 1
+    grade_1 = {
+        'Connor': 95,
+        'John': 100,
+        'Bob': 80,
+        'Sue': 0
     }
 
-    gradebook.add_grade(grades)
+    gradebook.add_grade(grade_1)
+
+    # add grades for assignment 2
+    grade_2 = {
+        'Connor': 95,
+        'John': 80,
+        'Bob': 79,
+        'Sue': 100,
+    }
+
+    gradebook.add_grade(grade_2)
 
     print(gradebook)
