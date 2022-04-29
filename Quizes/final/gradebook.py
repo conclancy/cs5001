@@ -107,7 +107,7 @@ class Gradebook:
     #the following methods are assumed to exist, but do not need to be tested
     #you can rely on them in your tests
 
-    def add_grade(self, assignment_grades):
+    def add_grade(self, assignment_grades) -> None:
         '''
         This takes a dictionary as input. The dictionary has student names as a key
         and the points for an assignment as the value.
@@ -120,8 +120,15 @@ class Gradebook:
             a single assignment as the values
         '''
 
+        for name in assignment_grades.keys():
+            grades = assignment_grades[name]
 
-    def get_grades(self):
+            while len(grades) > 0:
+                grade = grades.pop()
+                self.student_dict[name].append(grade)
+
+
+    def get_grades(self) -> dict:
         '''
         This method returns the dictionary of student grades for this course.
         The dictionary has the student names as keys, and a list of all of 
@@ -188,7 +195,19 @@ class Gradebook:
         return gradebook
 
 if __name__ == "__main__":
-    studets = ['Connor', 'John', 'Bob', 'Sue']
-    gradebook = Gradebook('cs5001', 2022, 'Fall', 'Wilder', studets)
+
+    # initialize
+    students = ['Connor', 'John', 'Bob', 'Sue']
+    gradebook = Gradebook('cs5001', 2022, 'Fall', 'Wilder', students)
+
+    # add grades
+    grades = {
+        'Connor': [95, 95],
+        'John': [100, 80],
+        'Bob': [80, 79],
+        'Sue': [0, 100]
+    }
+
+    gradebook.add_grade(grades)
 
     print(gradebook)
