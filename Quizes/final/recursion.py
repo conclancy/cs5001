@@ -1,6 +1,14 @@
 '''
-Write a recursive version of list_of_strings_loop
-Write a useful comment for your function
+CS5001.38359.202230 - SEC 05 - John Wilder
+Final Examp - Recursion
+clancy.co@northeastern.edu (002781018)
+29 APR 22 
+
+This file contains a recursive function of the originally provided function.
+
+Instructions:
+    1. Write a recursive version of list_of_strings_loop
+    2. Write a useful comment for your function
 '''
 
 
