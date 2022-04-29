@@ -1,3 +1,12 @@
+'''
+CS5001.38359.202230 - SEC 05 - John Wilder
+Final Examp - Gradebook
+clancy.co@northeastern.edu (002781018)
+29 APR 22 
+
+# todo
+'''
+
 
 class Gradebook:
     '''
@@ -25,6 +34,43 @@ class Gradebook:
         :param instructor: the name of the instructor, as a string
         :param students: a list of student names (strings)
         '''
+
+        # course_name 
+        if isinstance(course_name, str):
+            self.course_name = course_name
+        else:
+            raise ValueError("course_name must be of type string")
+        
+        # year
+        if isinstance(year, int):
+            if year >= 2000:
+                self.year = year
+            else:
+                raise ValueError("year cannot be less than 2000")
+        else:
+            raise ValueError("year must be of type int")
+
+        # semester
+        if isinstance(semester, str):
+            if semester in ['Fall', 'Spring', 'Summer']:
+                self.semester = semester
+            else:
+                raise ValueError("semester must be Fall, Spring, Summer")
+        else:
+            raise ValueError("semester must be of type string")
+        
+        # instructor 
+        if isinstance(instructor, str):
+            self.instructor = instructor
+        else:
+            raise ValueError("instructor must be of type string")
+        
+        # create students dictionary from a list of students 
+        if isinstance(students, list):
+            self.students = students
+            self.initialize_grade_dictionary()
+        else:
+            raise ValueError("students must be of type list")
 
     def average_grade(self):
         '''
@@ -78,16 +124,71 @@ class Gradebook:
     def get_grades(self):
         '''
         This method returns the dictionary of student grades for this course.
-        The dictionary has the student names as keys, and a list of all of their
-        grades as values
+        The dictionary has the student names as keys, and a list of all of 
+        their grades as values
         :return: The dictionary of student grades
         '''
+        return self.student_dict
 
 
-    def initialize_grade_dictionary(self):
+    def initialize_grade_dictionary(self) -> None:
         '''
-        This is a helper function for the constructor. It takes a list of students
-        that is passed into __init__ and creates a dictionary where each student name
-        is a key, and an empty list is the value.
-        :return: A new dictionary with student names as keys, and an empty list as values
+        This is a helper function for the constructor. It takes a list of 
+        students that is passed into __init__ and creates a dictionary where 
+        each student name is a key, and an empty list is the value.
+        :return: A new dictionary with student names as keys, and an empty
+            list as values
         '''
+
+        # function variables
+        students_dict = {}
+
+        # for each student, create a key value pair with the student's name
+        # and an empty dictionary.
+        for s in self.students:
+            if isinstance(s, str):
+                students_dict[s] = []
+            else: 
+                raise ValueError("student's names must be of type str")
+
+        # set object variable to the generated student dictionary
+
+        self.student_dict = students_dict
+
+    def __str__(self):
+        '''
+        print the gradebook option in a human readable form. 
+        params:
+            self - the current object
+        returns:
+            void; it prints a string
+        '''
+
+        # variables
+        divider = '-' * 20
+        gradebook = ''
+
+        # gradebook metadata  
+        gradebook += 'course name: ' + self.course_name + '\n'
+        gradebook += 'year:        ' + str(self.year) + '\n'
+        gradebook += 'semester:    ' + self.semester + '\n'
+        gradebook += 'instructor:  ' + self.instructor + '\n'
+        gradebook += '\n'
+        gradebook += 'students'
+        gradebook += '\n'
+        gradebook += divider + '\n'
+
+        # students 
+        for s in self.student_dict.keys():
+            ''''''
+            info = (' ' * 4 ) + s + ':' + str(self.student_dict[s]) + '\n'
+            gradebook += info
+
+
+        return gradebook
+
+if __name__ == "__main__":
+    studets = ['Connor', 'John', 'Bob', 'Sue']
+    gradebook = Gradebook('cs5001', 2022, 'Fall', 'Wilder', studets)
+
+    print(gradebook)
