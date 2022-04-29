@@ -4,11 +4,9 @@ Final Examp - Gradebook
 clancy.co@northeastern.edu (002781018)
 29 APR 22 
 
-# todo
+This file contains a grade book an instructor can use to track student's 
+points totals for assignments, average grade, and their final letter grade.
 '''
-
-
-from multiprocessing.sharedctypes import Value
 
 
 class Gradebook:
@@ -18,13 +16,15 @@ class Gradebook:
     and all of the students in the class along with their grades.
 
     The Gradebook needs to store each of those pieces of information in their
-    attribute. The name of the course is a string, the year is an int, the semester
-    is a String containing one of three possible values "Fall", "Spring", "Summer",
-    the instructor's name is a string, and the students and their grades
-    are stored in a dictionary where the key is the student's name (str) and
-    the value is the current number of points they have received on each
+    attribute. The name of the course is a string, the year is an int, the 
+    semester is a String containing one of three possible values "Fall", 
+    "Spring", "Summer", the instructor's name is a string, and the students 
+    and their grades are stored in a dictionary where the key is the student's
+    name (str) and the value is the current number of points they have 
+    received on each.
     assignment (list of int).
     '''
+
     def __init__(self, course_name, year, semester, instructor, students):
         '''
         Initialize a new Gradebook object.
@@ -111,10 +111,13 @@ class Gradebook:
         0.00–64.99    F
 
         If a grade would be out of this range a ValueError should be raised.
-        If the total number of points available is less than 1 a ValueError should be raised.
+        If the total number of points available is less than 1 a ValueError 
+            should be raised.
 
-        :param total_points: the total number of points (int) available in the class so far
-        :return:a dictionary with a key of a student's name and a value of the letter grade (str)
+        :param total_points: the total number of points (int) available in 
+            the class so far
+        :return:a dictionary with a key of a student's name and a value of 
+            the letter grade (str)
         '''
 
         # variables
@@ -201,7 +204,7 @@ class Gradebook:
     def initialize_grade_dictionary(self) -> None:
         '''
         This is a helper function for the constructor. It takes a list of 
-        students that is passed into __init__ and creates a dictionary where 
+        students that is passed into __init__ and creates a dictionary where
         each student name is a key, and an empty list is the value.
         :return: A new dictionary with student names as keys, and an empty
             list as values
@@ -280,5 +283,7 @@ if __name__ == "__main__":
 
     gradebook.add_grade(grade_2)
 
+    # basic functional testing 
     print(gradebook)
     print(gradebook.letter_grade(200))
+    print(gradebook.average_grade())
