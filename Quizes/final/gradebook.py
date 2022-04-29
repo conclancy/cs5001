@@ -75,14 +75,26 @@ class Gradebook:
         else:
             raise ValueError("students must be of type list")
 
-    def average_grade(self):
+    def average_grade(self) -> dict:
         '''
         Returns the average (arithmetic mean) number of points
         received py the students in the class.
-        :return: average number of point earned
+        :return: a dictionary with the student's average number of points
         '''
 
-    def letter_grade(self, total_points):
+        # initialize new student dictionary
+        avg_grade = {}
+
+        # calcuate the average grade for each student
+        for s in self.student_dict.keys():
+            total_points = sum(self.student_dict[s])
+            assignments = len(self.student_dict[s])
+            avg_grade[s] = total_points / assignments
+
+        # return the average grade dictionary
+        return avg_grade
+
+    def letter_grade(self, total_points) -> dict:
         '''
         Given the total points available returns a dictionary
         that has the student name along with their corresponding
@@ -104,6 +116,46 @@ class Gradebook:
         :param total_points: the total number of points (int) available in the class so far
         :return:a dictionary with a key of a student's name and a value of the letter grade (str)
         '''
+
+        # variables
+        letter_grades = {}
+
+        # get the grade letter 
+        for name in self.student_dict.keys():
+            grade_per = sum(self.student_dict[name]) / total_points
+            
+            if grade_per > 1:
+                err = "Students cannot earn more than 100 percent in the"
+                err += "class!\nCheck the total_points input."
+                raise ValueError(err)
+            elif grade_per >= .93:
+                letter = "A"
+            elif grade_per >= .90:
+                letter = "A-"
+            elif grade_per >= .86:
+                letter = "B+"
+            elif grade_per >= .82:
+                letter = "B"
+            elif grade_per >= .77:
+                letter = "B-"
+            elif grade_per >= .73:
+                letter = "C+"
+            elif grade_per >= .69:
+                letter = "C"
+            elif grade_per >= .65:
+                letter = "C-"
+            elif grade_per >= 0:
+                letter = "F"
+            elif grade_per < 0: 
+                err = "Students cannot earn less than 0 percent in the"
+                err += "class!\nCheck the total_points input."
+                raise ValueError(err)
+
+            # assign the students grade
+            letter_grades[name] = letter
+
+        # return the new grade dictioanry
+        return letter_grades
 
     # the following methods are assumed to exist, but do not need to be tested
     # you can rely on them in your tests
@@ -135,8 +187,6 @@ class Gradebook:
                 self.student_dict[name].append(grade)
             except TypeError:
                 raise TypeError("grades should be numeric")
-            
-
 
     def get_grades(self) -> dict:
         '''
@@ -231,3 +281,4 @@ if __name__ == "__main__":
     gradebook.add_grade(grade_2)
 
     print(gradebook)
+    print(gradebook.letter_grade(200))
