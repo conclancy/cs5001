@@ -250,7 +250,6 @@ class Gradebook:
 
         # students 
         for s in self.student_dict.keys():
-            ''''''
             info = (' ' * 4 ) + s + ':' + str(self.student_dict[s]) + '\n'
             gradebook += info
 
